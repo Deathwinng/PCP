@@ -12,7 +12,7 @@
             this.MotherboardMemoryType = new HashSet<MotherboardMemoryType>();
         }
 
-        public decimal? Price { get; set; }
+        public float? Price { get; set; }
 
         public int BrandId { get; set; }
 
@@ -66,9 +66,9 @@
 
         public FormFactor FormFactor { get; set; }
 
-        public decimal? Width { get; set; }
+        public float? Width { get; set; }
 
-        public decimal? Length { get; set; }
+        public float? Length { get; set; }
 
         public string Features { get; set; }
 

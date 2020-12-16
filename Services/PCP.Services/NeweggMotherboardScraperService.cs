@@ -16,7 +16,7 @@
         private readonly IConfiguration configuration;
         private readonly IBrowsingContext context;
         private readonly Regex matchOneOrMoreDigits;
-        private readonly Regex matchOneOrMoreDigitsWithDecimal;
+        private readonly Regex matchOneOrMoreDigitsWithfloat;
         private readonly IDeletableEntityRepository<Motherboard> motherboardRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
@@ -45,7 +45,7 @@
             this.configuration = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(this.configuration);
             this.matchOneOrMoreDigits = new Regex(@"\d+");
-            this.matchOneOrMoreDigitsWithDecimal = new Regex(@"\d+\.?\d?");
+            this.matchOneOrMoreDigitsWithfloat = new Regex(@"\d+\.?\d?");
             this.motherboardRepo = motherboardRepo;
             this.brandRepo = brandRepo;
             this.seriesRepo = seriesRepo;
@@ -72,7 +72,7 @@
             var motherboard = new Motherboard();
             var priceAsString = document.QuerySelectorAll(".product-pane .product-price .price .price-current")
                 .LastOrDefault()?.TextContent.Replace("$", string.Empty);
-            decimal.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal price);
+            float.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out float price);
             motherboard.Price = price;
             var motherboardDataTables = document.QuerySelectorAll("#product-details .tab-panes .tab-pane .table-horizontal");
 
@@ -86,11 +86,11 @@
                     case "Onboard Audio":
                         var audioChipsetName = tableRows[0].LastChild.TextContent.Trim();
                         var firstLine = tableRows[1].LastChild.TextContent.Split("\n");
-                        var matches = this.matchOneOrMoreDigitsWithDecimal.Matches(firstLine[0]);
-                        decimal channels = 0;
+                        var matches = this.matchOneOrMoreDigitsWithfloat.Matches(firstLine[0]);
+                        float channels = 0;
                         foreach (Match match in matches)
                         {
-                            channels = Math.Max(channels, decimal.Parse(match.Value, CultureInfo.InvariantCulture));
+                            channels = Math.Max(channels, float.Parse(match.Value, CultureInfo.InvariantCulture));
                         }
 
                         var audioChipset = this.audioChipsetRepo.All().FirstOrDefault(x => x.Name == audioChipsetName);
@@ -317,10 +317,10 @@
                         break;
                     case "Dimensions (W x L)":
                         var dimensionsSplit = rowValue.Split('x');
-                        var widthInInch = decimal.Parse(this.matchOneOrMoreDigitsWithDecimal.Match(dimensionsSplit[0]).Value, CultureInfo.InvariantCulture);
-                        var lengthInInch = decimal.Parse(this.matchOneOrMoreDigitsWithDecimal.Match(dimensionsSplit[1]).Value, CultureInfo.InvariantCulture);
-                        motherboard.Width = widthInInch * 2.54M;
-                        motherboard.Length = lengthInInch * 2.54M;
+                        var widthInInch = float.Parse(this.matchOneOrMoreDigitsWithfloat.Match(dimensionsSplit[0]).Value, CultureInfo.InvariantCulture);
+                        var lengthInInch = float.Parse(this.matchOneOrMoreDigitsWithfloat.Match(dimensionsSplit[1]).Value, CultureInfo.InvariantCulture);
+                        motherboard.Width = widthInInch * 2.54F;
+                        motherboard.Length = lengthInInch * 2.54F;
                         break;
                     case "Features":
                         motherboard.Features = rowValue;

@@ -60,7 +60,7 @@
 
         public short? IntegratedGraphicMaxFrequency { get; set; }
 
-        public decimal? PCIERevision { get; set; }
+        public float? PCIERevision { get; set; }
 
         public byte? PCIELanes { get; set; }
 

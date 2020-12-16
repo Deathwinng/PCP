@@ -27,7 +27,7 @@
         private readonly IConfiguration configuration;
         private readonly IBrowsingContext context;
         private readonly Regex matchOneOrMoreDigits;
-        private readonly Regex matchOneOrMoreDigitsWithDecimal;
+        private readonly Regex matchOneOrMoreDigitsWithfloat;
 
         public NeweggCPUScraperService(
             IDeletableEntityRepository<CPU> cpuRepo,
@@ -52,7 +52,7 @@
             this.configuration = Configuration.Default.WithDefaultLoader();
             this.context = BrowsingContext.New(this.configuration);
             this.matchOneOrMoreDigits = new Regex(@"\d+");
-            this.matchOneOrMoreDigitsWithDecimal = new Regex(@"\d+\.?\d?");
+            this.matchOneOrMoreDigitsWithfloat = new Regex(@"\d+\.?\d?");
         }
 
         public async Task ScrapeCPUsFromProductPageAsync(string productUrl)
@@ -68,7 +68,7 @@
             var cpu = new CPU();
             var priceAsString = document.QuerySelectorAll(".product-pane .product-price .price .price-current")
                 .LastOrDefault()?.TextContent.Replace("$", string.Empty);
-            decimal.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal price);
+            float.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out float price);
             cpu.Price = price;
             var integratedGrapicsData = new Dictionary<string, string>();
 
@@ -266,7 +266,7 @@
                         integratedGrapicsData["MaxFrequency"] = rowValue;
                         break;
                     case "PCI Express Revision":
-                        cpu.PCIERevision = decimal.Parse(rowValue, CultureInfo.InvariantCulture);
+                        cpu.PCIERevision = float.Parse(rowValue, CultureInfo.InvariantCulture);
                         break;
                     case "Max Number of PCI Express Lanes":
                         cpu.PCIELanes = byte.Parse(rowValue);
@@ -340,7 +340,7 @@
             }
             else
             {
-                var value = this.matchOneOrMoreDigitsWithDecimal.Match(cacheAsString).Value;
+                var value = this.matchOneOrMoreDigitsWithfloat.Match(cacheAsString).Value;
                 result = int.Parse(value, CultureInfo.InvariantCulture);
             }
 
@@ -360,16 +360,16 @@
                 frequencyAsString = frequencyAsString.Replace("Intel Turbo Boost 2.0 Max Technology Frequency:", string.Empty);
             }
 
-            var match = this.matchOneOrMoreDigitsWithDecimal.Match(frequencyAsString);
+            var match = this.matchOneOrMoreDigitsWithfloat.Match(frequencyAsString);
             var value = match.Value;
-            var decimalResult = decimal.Parse(value, CultureInfo.InvariantCulture);
+            var floatResult = float.Parse(value, CultureInfo.InvariantCulture);
             var isInGigahertz = frequencyAsString.ToLower().Contains("ghz");
             if (isInGigahertz)
             {
-                decimalResult *= 1000;
+                floatResult *= 1000;
             }
 
-            var result = (short)decimalResult;
+            var result = (short)floatResult;
             return result;
         }
     }

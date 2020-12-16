@@ -13,7 +13,7 @@
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public decimal? Price { get; set; }
+        public float? Price { get; set; }
 
         public int? BrandId { get; set; }
 
@@ -71,7 +71,7 @@
 
         public IntegratedGraphic IntegratedGraphic { get; set; }
 
-        public decimal? PCIERevision { get; set; }
+        public float? PCIERevision { get; set; }
 
         public byte? PCIELanes { get; set; }
 

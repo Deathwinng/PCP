@@ -1,9 +1,8 @@
-﻿namespace PCP.Data.Migrations
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace PCP.Data.Migrations
 {
-    using System;
-
-    using Microsoft.EntityFrameworkCore.Migrations;
-
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,7 +65,7 @@
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Channels = table.Column<decimal>(nullable: true)
+                    Channels = table.Column<float>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,23 +87,6 @@
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Brands", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Chipsets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Chipsets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,6 +124,23 @@
                 });
 
             migrationBuilder.CreateTable(
+                name: "GPUInterfaces",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPUInterfaces", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IntegratedGraphics",
                 columns: table => new
                 {
@@ -170,8 +169,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    MaxSpeed = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -227,6 +225,40 @@
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MemoryTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MothrboardChipset",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MothrboardChipset", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ports", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -388,6 +420,38 @@
                 });
 
             migrationBuilder.CreateTable(
+                name: "GPUCores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    BrandId = table.Column<int>(nullable: false),
+                    SeriesId = table.Column<int>(nullable: true),
+                    Cores = table.Column<short>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPUCores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GPUCores_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUCores_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CPUs",
                 columns: table => new
                 {
@@ -398,7 +462,7 @@
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Price = table.Column<decimal>(nullable: true),
+                    Price = table.Column<float>(nullable: true),
                     BrandId = table.Column<int>(nullable: true),
                     Model = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
@@ -419,7 +483,7 @@
                     MemorySpeedId = table.Column<int>(nullable: true),
                     VirtualizationSupport = table.Column<bool>(nullable: true),
                     IntegratedGraphicId = table.Column<int>(nullable: true),
-                    PCIERevision = table.Column<decimal>(nullable: true),
+                    PCIERevision = table.Column<float>(nullable: true),
                     PCIELanes = table.Column<byte>(nullable: true),
                     ThermalDesignPower = table.Column<short>(nullable: true),
                     HasCoolingDevice = table.Column<bool>(nullable: true),
@@ -488,8 +552,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: true),
+                    Price = table.Column<float>(nullable: true),
                     BrandId = table.Column<int>(nullable: false),
                     Model = table.Column<string>(nullable: true),
                     SeriesId = table.Column<int>(nullable: true),
@@ -508,8 +571,8 @@
                     LanChipsetId = table.Column<int>(nullable: true),
                     RearPanelPorts = table.Column<string>(nullable: true),
                     FormFactorId = table.Column<int>(nullable: true),
-                    Width = table.Column<decimal>(nullable: true),
-                    Length = table.Column<decimal>(nullable: true),
+                    Width = table.Column<float>(nullable: true),
+                    Length = table.Column<float>(nullable: true),
                     Features = table.Column<string>(nullable: true),
                     FirstAvailable = table.Column<DateTime>(nullable: true)
                 },
@@ -529,9 +592,9 @@
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Motherboards_Chipsets_ChipsetId",
+                        name: "FK_Motherboards_MothrboardChipset_ChipsetId",
                         column: x => x.ChipsetId,
-                        principalTable: "Chipsets",
+                        principalTable: "MothrboardChipset",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -556,6 +619,31 @@
                         name: "FK_Motherboards_Sockets_SocketId",
                         column: x => x.SocketId,
                         principalTable: "Sockets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GPUChipsets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    GPUCoreId = table.Column<int>(nullable: true),
+                    CoreClock = table.Column<short>(nullable: true),
+                    TurboClock = table.Column<short>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPUChipsets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GPUChipsets_GPUCores_GPUCoreId",
+                        column: x => x.GPUCoreId,
+                        principalTable: "GPUCores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -593,6 +681,101 @@
                         name: "FK_MotherboardMemoryTypes_Motherboards_MotherboardId",
                         column: x => x.MotherboardId,
                         principalTable: "Motherboards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GPUs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Price = table.Column<float>(nullable: true),
+                    BrandId = table.Column<int>(nullable: false),
+                    Model = table.Column<string>(nullable: true),
+                    SeriesId = table.Column<int>(nullable: true),
+                    GPUInterfaceId = table.Column<int>(nullable: true),
+                    GPUChipsetId = table.Column<int>(nullable: true),
+                    MemoryTypeId = table.Column<int>(nullable: false),
+                    MemorySize = table.Column<short>(nullable: false),
+                    MemoryInterface = table.Column<short>(nullable: false),
+                    MemoryBandwidth = table.Column<byte>(nullable: false),
+                    DirectXVersion = table.Column<float>(nullable: false),
+                    OpenGLVersion = table.Column<float>(nullable: false),
+                    ThermalDesignPower = table.Column<short>(nullable: true),
+                    Features = table.Column<string>(nullable: true),
+                    Length = table.Column<float>(nullable: false),
+                    Height = table.Column<float>(nullable: false),
+                    SlotWidth = table.Column<float>(nullable: false),
+                    FirstAvailable = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPUs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GPUs_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUs_GPUChipsets_GPUChipsetId",
+                        column: x => x.GPUChipsetId,
+                        principalTable: "GPUChipsets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUs_GPUInterfaces_GPUInterfaceId",
+                        column: x => x.GPUInterfaceId,
+                        principalTable: "GPUInterfaces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUs_MemoryTypes_MemoryTypeId",
+                        column: x => x.MemoryTypeId,
+                        principalTable: "MemoryTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUs_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GPUPorts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    GPUId = table.Column<int>(nullable: false),
+                    PortId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<byte>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPUPorts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GPUPorts_GPUs_GPUId",
+                        column: x => x.GPUId,
+                        principalTable: "GPUs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUPorts_Ports_PortId",
+                        column: x => x.PortId,
+                        principalTable: "Ports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -657,11 +840,6 @@
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chipsets_IsDeleted",
-                table: "Chipsets",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CoreNames_IsDeleted",
                 table: "CoreNames",
                 column: "IsDeleted");
@@ -715,6 +893,81 @@
                 name: "IX_FormFactors_IsDeleted",
                 table: "FormFactors",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUChipsets_GPUCoreId",
+                table: "GPUChipsets",
+                column: "GPUCoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUChipsets_IsDeleted",
+                table: "GPUChipsets",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUCores_BrandId",
+                table: "GPUCores",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUCores_IsDeleted",
+                table: "GPUCores",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUCores_SeriesId",
+                table: "GPUCores",
+                column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUInterfaces_IsDeleted",
+                table: "GPUInterfaces",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUPorts_GPUId",
+                table: "GPUPorts",
+                column: "GPUId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUPorts_IsDeleted",
+                table: "GPUPorts",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUPorts_PortId",
+                table: "GPUPorts",
+                column: "PortId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUs_BrandId",
+                table: "GPUs",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUs_GPUChipsetId",
+                table: "GPUs",
+                column: "GPUChipsetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUs_GPUInterfaceId",
+                table: "GPUs",
+                column: "GPUInterfaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUs_IsDeleted",
+                table: "GPUs",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUs_MemoryTypeId",
+                table: "GPUs",
+                column: "MemoryTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUs_SeriesId",
+                table: "GPUs",
+                column: "SeriesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IntegratedGraphics_IsDeleted",
@@ -802,6 +1055,16 @@
                 column: "SocketId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MothrboardChipset_IsDeleted",
+                table: "MothrboardChipset",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ports_IsDeleted",
+                table: "Ports",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Series_IsDeleted",
                 table: "Series",
                 column: "IsDeleted");
@@ -838,6 +1101,9 @@
                 name: "CPUs");
 
             migrationBuilder.DropTable(
+                name: "GPUPorts");
+
+            migrationBuilder.DropTable(
                 name: "MotherboardMemoryTypes");
 
             migrationBuilder.DropTable(
@@ -859,22 +1125,31 @@
                 name: "Lithographies");
 
             migrationBuilder.DropTable(
-                name: "MemorySpeeds");
+                name: "GPUs");
 
             migrationBuilder.DropTable(
-                name: "MemoryTypes");
+                name: "Ports");
+
+            migrationBuilder.DropTable(
+                name: "MemorySpeeds");
 
             migrationBuilder.DropTable(
                 name: "Motherboards");
 
             migrationBuilder.DropTable(
+                name: "GPUChipsets");
+
+            migrationBuilder.DropTable(
+                name: "GPUInterfaces");
+
+            migrationBuilder.DropTable(
+                name: "MemoryTypes");
+
+            migrationBuilder.DropTable(
                 name: "AudioChipsets");
 
             migrationBuilder.DropTable(
-                name: "Brands");
-
-            migrationBuilder.DropTable(
-                name: "Chipsets");
+                name: "MothrboardChipset");
 
             migrationBuilder.DropTable(
                 name: "FormFactors");
@@ -883,10 +1158,16 @@
                 name: "LanChipsets");
 
             migrationBuilder.DropTable(
-                name: "Series");
+                name: "Sockets");
 
             migrationBuilder.DropTable(
-                name: "Sockets");
+                name: "GPUCores");
+
+            migrationBuilder.DropTable(
+                name: "Brands");
+
+            migrationBuilder.DropTable(
+                name: "Series");
         }
     }
 }

@@ -1,12 +1,20 @@
 ﻿namespace PCP.Data.Models.GPU
 {
+    using System;
+    using System.Collections.Generic;
+
     using PCP.Data.Common.Models;
 
     public class GPU : BaseDeletableModel<int>
     {
-        public decimal? Price { get; set; }
+        public GPU()
+        {
+            this.GPUPorts = new HashSet<GPUPort>();
+        }
 
-        public int BrandId { get; set; }
+        public float? Price { get; set; }
+
+        public int? BrandId { get; set; }
 
         public Brand Brand { get; set; }
 
@@ -24,6 +32,32 @@
 
         public GPUChipset GPUChipset { get; set; }
 
-        public int MyProperty { get; set; }
+        public int? MemoryTypeId { get; set; }
+
+        public MemoryType MemoryType { get; set; }
+
+        public short? MemorySize { get; set; }
+
+        public short? MemoryInterface { get; set; }
+
+        public byte? MemoryBandwidth { get; set; }
+
+        public float? DirectXVersion { get; set; }
+
+        public float? OpenGLVersion { get; set; }
+
+        public ICollection<GPUPort> GPUPorts { get; set; }
+
+        public short? ThermalDesignPower { get; set; }
+
+        public string Features { get; set; }
+
+        public float? Length { get; set; }
+
+        public float? Height { get; set; }
+
+        public float? SlotWidth { get; set; }
+
+        public DateTime FirstAvailable { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using PCP.Data;
 namespace PCP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201129154332_InitialCreate")]
+    [Migration("20201216151319_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -346,11 +346,11 @@ namespace PCP.Data.Migrations
                     b.Property<byte?>("PCIELanes")
                         .HasColumnType("tinyint");
 
-                    b.Property<decimal?>("PCIERevision")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float?>("PCIERevision")
+                        .HasColumnType("real");
 
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
 
                     b.Property<int?>("SeriesId")
                         .HasColumnType("int");
@@ -455,6 +455,243 @@ namespace PCP.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("FormFactors");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPU", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("DirectXVersion")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Features")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FirstAvailable")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("GPUChipsetId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GPUInterfaceId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Length")
+                        .HasColumnType("real");
+
+                    b.Property<byte>("MemoryBandwidth")
+                        .HasColumnType("tinyint");
+
+                    b.Property<short>("MemoryInterface")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("MemorySize")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("MemoryTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("OpenGLVersion")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("SlotWidth")
+                        .HasColumnType("real");
+
+                    b.Property<short?>("ThermalDesignPower")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("GPUChipsetId");
+
+                    b.HasIndex("GPUInterfaceId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("MemoryTypeId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("GPUs");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPUChipset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<short?>("CoreClock")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("GPUCoreId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short?>("TurboClock")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GPUCoreId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("GPUChipsets");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPUCore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<short?>("Cores")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("GPUCores");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPUInterface", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("GPUInterfaces");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPUPort", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GPUId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PortId")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("Quantity")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GPUId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PortId");
+
+                    b.ToTable("GPUPorts");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.IntegratedGraphic", b =>
@@ -586,8 +823,8 @@ namespace PCP.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal?>("Channels")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float?>("Channels")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -611,35 +848,6 @@ namespace PCP.Data.Migrations
                     b.ToTable("AudioChipsets");
                 });
 
-            modelBuilder.Entity("PCP.Data.Models.Motherboard.Chipset", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Chipsets");
-                });
-
             modelBuilder.Entity("PCP.Data.Models.Motherboard.LanChipset", b =>
                 {
                     b.Property<int>("Id")
@@ -655,9 +863,6 @@ namespace PCP.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("MaxSpeed")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -709,8 +914,8 @@ namespace PCP.Data.Migrations
                     b.Property<int?>("LanChipsetId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Length")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float?>("Length")
+                        .HasColumnType("real");
 
                     b.Property<int?>("MaxMemorySupport")
                         .HasColumnType("int");
@@ -730,9 +935,6 @@ namespace PCP.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<byte>("PCIe3x16")
                         .HasColumnType("tinyint");
 
@@ -742,8 +944,8 @@ namespace PCP.Data.Migrations
                     b.Property<byte>("PCIex1")
                         .HasColumnType("tinyint");
 
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
 
                     b.Property<string>("RearPanelPorts")
                         .HasColumnType("nvarchar(max)");
@@ -760,8 +962,8 @@ namespace PCP.Data.Migrations
                     b.Property<int?>("SocketId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Width")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float?>("Width")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -823,6 +1025,64 @@ namespace PCP.Data.Migrations
                     b.HasIndex("MotherboardId");
 
                     b.ToTable("MotherboardMemoryTypes");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.Motherboard.MothrboardChipset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("MothrboardChipset");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.Port", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Ports");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.Series", b =>
@@ -1001,6 +1261,68 @@ namespace PCP.Data.Migrations
                         .HasForeignKey("SocketId");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPU", b =>
+                {
+                    b.HasOne("PCP.Data.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCP.Data.Models.GPU.GPUChipset", "GPUChipset")
+                        .WithMany()
+                        .HasForeignKey("GPUChipsetId");
+
+                    b.HasOne("PCP.Data.Models.GPU.GPUInterface", "GPUInterface")
+                        .WithMany()
+                        .HasForeignKey("GPUInterfaceId");
+
+                    b.HasOne("PCP.Data.Models.MemoryType", "MemoryType")
+                        .WithMany()
+                        .HasForeignKey("MemoryTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCP.Data.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPUChipset", b =>
+                {
+                    b.HasOne("PCP.Data.Models.GPU.GPUCore", "GPUCore")
+                        .WithMany()
+                        .HasForeignKey("GPUCoreId");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPUCore", b =>
+                {
+                    b.HasOne("PCP.Data.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCP.Data.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPUPort", b =>
+                {
+                    b.HasOne("PCP.Data.Models.GPU.GPU", "GPU")
+                        .WithMany("GPUPorts")
+                        .HasForeignKey("GPUId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCP.Data.Models.Port", "Port")
+                        .WithMany()
+                        .HasForeignKey("PortId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PCP.Data.Models.Motherboard.Motherboard", b =>
                 {
                     b.HasOne("PCP.Data.Models.Motherboard.AudioChipset", "AudioChipset")
@@ -1013,7 +1335,7 @@ namespace PCP.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PCP.Data.Models.Motherboard.Chipset", "Chipset")
+                    b.HasOne("PCP.Data.Models.Motherboard.MothrboardChipset", "Chipset")
                         .WithMany()
                         .HasForeignKey("ChipsetId");
 

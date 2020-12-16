@@ -11,6 +11,7 @@
     using PCP.Data.Common.Models;
     using PCP.Data.Models;
     using PCP.Data.Models.CPU;
+    using PCP.Data.Models.GPU;
     using PCP.Data.Models.Motherboard;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
@@ -54,6 +55,18 @@
         public DbSet<AudioChipset> AudioChipsets { get; set; }
 
         public DbSet<FormFactor> FormFactors { get; set; }
+
+        public DbSet<GPU> GPUs { get; set; }
+
+        public DbSet<GPUChipset> GPUChipsets { get; set; }
+
+        public DbSet<GPUCore> GPUCores { get; set; }
+
+        public DbSet<GPUInterface> GPUInterfaces { get; set; }
+
+        public DbSet<Port> Ports { get; set; }
+
+        public DbSet<GPUPort> GPUPorts { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

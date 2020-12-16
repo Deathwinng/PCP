@@ -6,6 +6,6 @@
     {
         public string Name { get; set; }
 
-        public decimal? Channels { get; set; }
+        public float? Channels { get; set; }
     }
 }
