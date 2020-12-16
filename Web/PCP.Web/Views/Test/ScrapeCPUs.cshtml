@@ -1,0 +1,11 @@
+﻿@model HashSet<string>
+@{
+}
+
+<h2>@Model.Count</h2>
+<ul>
+    @foreach (var url in @Model)
+    {
+        <li>@url</li>
+    }
+</ul>
