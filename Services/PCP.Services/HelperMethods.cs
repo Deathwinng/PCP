@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using System.Text.RegularExpressions;
-
-namespace PCP.Services
+﻿namespace PCP.Services
 {
+    using System.Globalization;
+    using System.Text.RegularExpressions;
+
     public class HelperMethods
     {
         private readonly Regex matchOneOrMoreDigits;

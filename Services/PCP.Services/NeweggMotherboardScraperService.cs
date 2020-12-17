@@ -129,7 +129,7 @@
                         break;
                 }
             }
-            
+
             Console.WriteLine(productUrl);
 
             foreach (var tableRow in motherboardDataTableRows)

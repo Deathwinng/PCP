@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace PCP.Data.Migrations
+﻿namespace PCP.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddImageUrlToMainTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -23,8 +23,6 @@
     {
         public static int Main(string[] args)
         {
-            byte? shortt;
-            shortt += 1;
             return 0;
             Console.WriteLine($"{typeof(Program).Namespace} ({string.Join(" ", args)}) starts working...");
             var serviceCollection = new ServiceCollection();
