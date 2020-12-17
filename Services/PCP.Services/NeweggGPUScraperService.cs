@@ -57,10 +57,10 @@
             var document = await this.Context.OpenAsync(productUrl);
             var gpuDataTableRows = this.GetAllTablesRows(document);
             var gpuDataTables = this.GetAllTables(document);
-            var price = this.GetPrice(document);
             var gpu = new GPU
             {
-                Price = price,
+                Price = this.GetPrice(document),
+                ImageUrl = this.GetImageUrl(document),
             };
 
             foreach (var table in gpuDataTables)

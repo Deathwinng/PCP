@@ -58,11 +58,11 @@
 
             var document = await this.Context.OpenAsync(productUrl);
             var cpuData = this.GetAllTablesRows(document);
-            var price = this.GetPrice(document);
             var integratedGrapicsData = new Dictionary<string, string>();
             var cpu = new CPU
             {
-                Price = price,
+                Price = this.GetPrice(document),
+                ImageUrl = this.GetImageUrl(document),
             };
 
             Console.WriteLine(productUrl);

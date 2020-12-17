@@ -63,10 +63,10 @@
             var document = await this.Context.OpenAsync(productUrl);
             var motherboardDataTableRows = this.GetAllTablesRows(document);
             var motherboardDataTables = this.GetAllTables(document);
-            var price = this.GetPrice(document);
             var motherboard = new Motherboard
             {
-                Price = price,
+                Price = this.GetPrice(document),
+                ImageUrl = this.GetImageUrl(document),
             };
 
             foreach (var table in motherboardDataTables)
