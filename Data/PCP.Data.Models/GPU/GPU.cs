@@ -14,6 +14,8 @@
 
         public float? Price { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public int? BrandId { get; set; }
 
         public Brand Brand { get; set; }
@@ -36,7 +38,7 @@
 
         public MemoryType MemoryType { get; set; }
 
-        public short? MemorySize { get; set; }
+        public int? MemorySize { get; set; }
 
         public short? MemoryInterface { get; set; }
 

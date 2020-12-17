@@ -15,6 +15,8 @@
 
         public float? Price { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public int? BrandId { get; set; }
 
         public Brand Brand { get; set; }

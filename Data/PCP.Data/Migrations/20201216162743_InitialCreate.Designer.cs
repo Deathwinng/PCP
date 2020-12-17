@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCP.Data;
 
 namespace PCP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201216162743_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,9 +305,6 @@ namespace PCP.Data.Migrations
                     b.Property<bool?>("HasCoolingDevice")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("IntegratedGraphicId")
                         .HasColumnType("int");
 
@@ -492,9 +491,6 @@ namespace PCP.Data.Migrations
                     b.Property<float?>("Height")
                         .HasColumnType("real");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -507,8 +503,8 @@ namespace PCP.Data.Migrations
                     b.Property<short?>("MemoryInterface")
                         .HasColumnType("smallint");
 
-                    b.Property<int?>("MemorySize")
-                        .HasColumnType("int");
+                    b.Property<short?>("MemorySize")
+                        .HasColumnType("smallint");
 
                     b.Property<int?>("MemoryTypeId")
                         .HasColumnType("int");
@@ -911,9 +907,6 @@ namespace PCP.Data.Migrations
 
                     b.Property<int?>("FormFactorId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

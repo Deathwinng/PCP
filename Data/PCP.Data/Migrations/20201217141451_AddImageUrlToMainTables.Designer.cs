@@ -10,8 +10,8 @@ using PCP.Data;
 namespace PCP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201216151319_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201217141451_AddImageUrlToMainTables")]
+    partial class AddImageUrlToMainTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -305,6 +305,9 @@ namespace PCP.Data.Migrations
                     b.Property<bool?>("HasCoolingDevice")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("IntegratedGraphicId")
                         .HasColumnType("int");
 
@@ -464,7 +467,7 @@ namespace PCP.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BrandId")
+                    b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -473,7 +476,7 @@ namespace PCP.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("DirectXVersion")
+                    b.Property<float?>("DirectXVersion")
                         .HasColumnType("real");
 
                     b.Property<string>("Features")
@@ -488,25 +491,28 @@ namespace PCP.Data.Migrations
                     b.Property<int?>("GPUInterfaceId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Height")
+                    b.Property<float?>("Height")
                         .HasColumnType("real");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<float>("Length")
+                    b.Property<float?>("Length")
                         .HasColumnType("real");
 
-                    b.Property<byte>("MemoryBandwidth")
+                    b.Property<byte?>("MemoryBandwidth")
                         .HasColumnType("tinyint");
 
-                    b.Property<short>("MemoryInterface")
+                    b.Property<short?>("MemoryInterface")
                         .HasColumnType("smallint");
 
-                    b.Property<short>("MemorySize")
-                        .HasColumnType("smallint");
+                    b.Property<int?>("MemorySize")
+                        .HasColumnType("int");
 
-                    b.Property<int>("MemoryTypeId")
+                    b.Property<int?>("MemoryTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Model")
@@ -515,7 +521,7 @@ namespace PCP.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("OpenGLVersion")
+                    b.Property<float?>("OpenGLVersion")
                         .HasColumnType("real");
 
                     b.Property<float?>("Price")
@@ -524,7 +530,7 @@ namespace PCP.Data.Migrations
                     b.Property<int?>("SeriesId")
                         .HasColumnType("int");
 
-                    b.Property<float>("SlotWidth")
+                    b.Property<float?>("SlotWidth")
                         .HasColumnType("real");
 
                     b.Property<short?>("ThermalDesignPower")
@@ -908,6 +914,9 @@ namespace PCP.Data.Migrations
                     b.Property<int?>("FormFactorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1265,9 +1274,7 @@ namespace PCP.Data.Migrations
                 {
                     b.HasOne("PCP.Data.Models.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("BrandId");
 
                     b.HasOne("PCP.Data.Models.GPU.GPUChipset", "GPUChipset")
                         .WithMany()
@@ -1279,9 +1286,7 @@ namespace PCP.Data.Migrations
 
                     b.HasOne("PCP.Data.Models.MemoryType", "MemoryType")
                         .WithMany()
-                        .HasForeignKey("MemoryTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("MemoryTypeId");
 
                     b.HasOne("PCP.Data.Models.Series", "Series")
                         .WithMany()

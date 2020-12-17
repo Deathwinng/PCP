@@ -13,7 +13,7 @@
     using PCP.Data.Models.CPU;
     using PCP.Data.Models.Enums;
 
-    public class NeweggCPUScraperService : INeweggCPUScraperService
+    public class NeweggCPUScraperService : NeweggProductScrapperBaseService, INeweggCPUScraperService
     {
         private readonly IDeletableEntityRepository<CPU> cpuRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
@@ -24,10 +24,6 @@
         private readonly IDeletableEntityRepository<IntegratedGraphic> integratedGraphicRepo;
         private readonly IDeletableEntityRepository<CoreName> corenameRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
-        private readonly IConfiguration configuration;
-        private readonly IBrowsingContext context;
-        private readonly Regex matchOneOrMoreDigits;
-        private readonly Regex matchOneOrMoreDigitsWithfloat;
 
         public NeweggCPUScraperService(
             IDeletableEntityRepository<CPU> cpuRepo,
@@ -39,6 +35,7 @@
             IDeletableEntityRepository<IntegratedGraphic> integratedGraphicRepo,
             IDeletableEntityRepository<CoreName> corenameRepo,
             IDeletableEntityRepository<Series> seriesRepo)
+            : base()
         {
             this.cpuRepo = cpuRepo;
             this.brandRepo = brandRepo;
@@ -49,10 +46,6 @@
             this.integratedGraphicRepo = integratedGraphicRepo;
             this.corenameRepo = corenameRepo;
             this.seriesRepo = seriesRepo;
-            this.configuration = Configuration.Default.WithDefaultLoader();
-            this.context = BrowsingContext.New(this.configuration);
-            this.matchOneOrMoreDigits = new Regex(@"\d+");
-            this.matchOneOrMoreDigitsWithfloat = new Regex(@"\d+\.?\d?");
         }
 
         public async Task ScrapeCPUsFromProductPageAsync(string productUrl)
@@ -63,14 +56,14 @@
                 return;
             }
 
-            var document = await this.context.OpenAsync(productUrl);
-            var cpuData = document.QuerySelectorAll("#product-details .tab-panes .tab-pane .table-horizontal tbody tr");
-            var cpu = new CPU();
-            var priceAsString = document.QuerySelectorAll(".product-pane .product-price .price .price-current")
-                .LastOrDefault()?.TextContent.Replace("$", string.Empty);
-            float.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out float price);
-            cpu.Price = price;
+            var document = await this.Context.OpenAsync(productUrl);
+            var cpuData = this.GetAllTablesRows(document);
+            var price = this.GetPrice(document);
             var integratedGrapicsData = new Dictionary<string, string>();
+            var cpu = new CPU
+            {
+                Price = price,
+            };
 
             Console.WriteLine(productUrl);
             foreach (var tr in cpuData)
@@ -148,7 +141,7 @@
                         cpu.CoreName = coreName;
                         break;
                     case "# of Cores":
-                        var matchResult = this.matchOneOrMoreDigits.Match(rowValue);
+                        var matchResult = this.MatchOneOrMoreDigits.Match(rowValue);
                         byte? numOfCores;
                         if (matchResult.Success)
                         {
@@ -156,8 +149,7 @@
                         }
                         else
                         {
-                            var numOfCoresString = rowValue.ToLower();
-                            numOfCores = numOfCoresString switch
+                            numOfCores = rowValue.ToLower() switch
                             {
                                 "single-core" => 1,
                                 "dual-core" => 2,
@@ -175,7 +167,7 @@
                         cpu.Cores = numOfCores;
                         break;
                     case "# of Threads":
-                        var numOfTreads = this.matchOneOrMoreDigits.Match(rowValue).Value;
+                        var numOfTreads = this.MatchOneOrMoreDigits.Match(rowValue).Value;
                         cpu.Threads = short.Parse(numOfTreads);
                         break;
                     case "Operating Frequency":
@@ -272,7 +264,7 @@
                         cpu.PCIELanes = byte.Parse(rowValue);
                         break;
                     case "Thermal Design Power":
-                        var thermalDesignPower = this.matchOneOrMoreDigits.Match(rowValue).Value;
+                        var thermalDesignPower = this.MatchOneOrMoreDigits.Match(rowValue).Value;
                         cpu.ThermalDesignPower = short.Parse(thermalDesignPower);
                         break;
                     case "Cooling Device":
@@ -327,20 +319,20 @@
             if (cacheAsString.ToLower().Contains('x'))
             {
                 var splitValues = cacheAsString.ToLower().Split('x');
-                var value1 = int.Parse(this.matchOneOrMoreDigits.Match(splitValues[0]).Value);
-                var value2 = int.Parse(this.matchOneOrMoreDigits.Match(splitValues[1]).Value);
+                var value1 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[0]).Value);
+                var value2 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[1]).Value);
                 result = value1 * value2;
             }
             else if (cacheAsString.ToLower().Contains('+'))
             {
                 var splitValues = cacheAsString.ToLower().Split('+');
-                var value1 = int.Parse(this.matchOneOrMoreDigits.Match(splitValues[0]).Value);
-                var value2 = int.Parse(this.matchOneOrMoreDigits.Match(splitValues[1]).Value);
+                var value1 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[0]).Value);
+                var value2 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[1]).Value);
                 result = value1 + value2;
             }
             else
             {
-                var value = this.matchOneOrMoreDigitsWithfloat.Match(cacheAsString).Value;
+                var value = this.MatchOneOrMoreDigitsFloat.Match(cacheAsString).Value;
                 result = int.Parse(value, CultureInfo.InvariantCulture);
             }
 
@@ -350,26 +342,6 @@
                 result *= 1024;
             }
 
-            return result;
-        }
-
-        private short GetFrecuencyAsShort(string frequencyAsString)
-        {
-            if (frequencyAsString.Contains("Boost"))
-            {
-                frequencyAsString = frequencyAsString.Replace("Intel Turbo Boost 2.0 Max Technology Frequency:", string.Empty);
-            }
-
-            var match = this.matchOneOrMoreDigitsWithfloat.Match(frequencyAsString);
-            var value = match.Value;
-            var floatResult = float.Parse(value, CultureInfo.InvariantCulture);
-            var isInGigahertz = frequencyAsString.ToLower().Contains("ghz");
-            if (isInGigahertz)
-            {
-                floatResult *= 1000;
-            }
-
-            var result = (short)floatResult;
             return result;
         }
     }

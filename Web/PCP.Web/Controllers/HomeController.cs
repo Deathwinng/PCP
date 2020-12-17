@@ -1,7 +1,6 @@
 ﻿namespace PCP.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using PCP.Services;

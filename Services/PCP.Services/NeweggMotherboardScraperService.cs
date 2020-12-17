@@ -11,12 +11,8 @@
     using PCP.Data.Models;
     using PCP.Data.Models.Motherboard;
 
-    public class NeweggMotherboardScraperService : INeweggMotherboardScraperService
+    public class NeweggMotherboardScraperService : NeweggProductScrapperBaseService, INeweggMotherboardScraperService
     {
-        private readonly IConfiguration configuration;
-        private readonly IBrowsingContext context;
-        private readonly Regex matchOneOrMoreDigits;
-        private readonly Regex matchOneOrMoreDigitsWithfloat;
         private readonly IDeletableEntityRepository<Motherboard> motherboardRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
@@ -41,11 +37,8 @@
             IDeletableEntityRepository<AudioChipset> audioChipsetRepo,
             IDeletableEntityRepository<FormFactor> formFactorRepo,
             IDeletableEntityRepository<LanChipset> lanChipsetRepo)
+            : base()
         {
-            this.configuration = Configuration.Default.WithDefaultLoader();
-            this.context = BrowsingContext.New(this.configuration);
-            this.matchOneOrMoreDigits = new Regex(@"\d+");
-            this.matchOneOrMoreDigitsWithfloat = new Regex(@"\d+\.?\d?");
             this.motherboardRepo = motherboardRepo;
             this.brandRepo = brandRepo;
             this.seriesRepo = seriesRepo;
@@ -67,14 +60,14 @@
                 return;
             }
 
-            var document = await this.context.OpenAsync(productUrl);
-            var motherboardDataTableRows = document.QuerySelectorAll("#product-details .tab-panes .tab-pane .table-horizontal tbody tr");
-            var motherboard = new Motherboard();
-            var priceAsString = document.QuerySelectorAll(".product-pane .product-price .price .price-current")
-                .LastOrDefault()?.TextContent.Replace("$", string.Empty);
-            float.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out float price);
-            motherboard.Price = price;
-            var motherboardDataTables = document.QuerySelectorAll("#product-details .tab-panes .tab-pane .table-horizontal");
+            var document = await this.Context.OpenAsync(productUrl);
+            var motherboardDataTableRows = this.GetAllTablesRows(document);
+            var motherboardDataTables = this.GetAllTables(document);
+            var price = this.GetPrice(document);
+            var motherboard = new Motherboard
+            {
+                Price = price,
+            };
 
             foreach (var table in motherboardDataTables)
             {
@@ -86,7 +79,7 @@
                     case "Onboard Audio":
                         var audioChipsetName = tableRows[0].LastChild.TextContent.Trim();
                         var firstLine = tableRows[1].LastChild.TextContent.Split("\n");
-                        var matches = this.matchOneOrMoreDigitsWithfloat.Matches(firstLine[0]);
+                        var matches = this.MatchOneOrMoreDigitsFloat.Matches(firstLine[0]);
                         float channels = 0;
                         foreach (Match match in matches)
                         {
@@ -136,7 +129,7 @@
                         break;
                 }
             }
-
+            
             Console.WriteLine(productUrl);
 
             foreach (var tableRow in motherboardDataTableRows)
@@ -204,7 +197,7 @@
                         motherboard.Chipset = chipset;
                         break;
                     case "Number of Memory Slots":
-                        motherboard.MemorySlots = int.Parse(this.matchOneOrMoreDigits.Match(rowValue).Value);
+                        motherboard.MemorySlots = int.Parse(this.MatchOneOrMoreDigits.Match(rowValue).Value);
                         break;
                     case "Memory Standard":
                         var lines = rowValue.Split("\n");
@@ -264,7 +257,7 @@
 
                         break;
                     case "Maximum Memory Supported":
-                        var maximumMemory = int.Parse(this.matchOneOrMoreDigits.Match(rowValue).Value);
+                        var maximumMemory = int.Parse(this.MatchOneOrMoreDigits.Match(rowValue).Value);
                         if (rowValue.ToLower().Contains("gb"))
                         {
                             maximumMemory *= 1024;
@@ -317,8 +310,8 @@
                         break;
                     case "Dimensions (W x L)":
                         var dimensionsSplit = rowValue.Split('x');
-                        var widthInInch = float.Parse(this.matchOneOrMoreDigitsWithfloat.Match(dimensionsSplit[0]).Value, CultureInfo.InvariantCulture);
-                        var lengthInInch = float.Parse(this.matchOneOrMoreDigitsWithfloat.Match(dimensionsSplit[1]).Value, CultureInfo.InvariantCulture);
+                        var widthInInch = float.Parse(this.MatchOneOrMoreDigitsFloat.Match(dimensionsSplit[0]).Value, CultureInfo.InvariantCulture);
+                        var lengthInInch = float.Parse(this.MatchOneOrMoreDigitsFloat.Match(dimensionsSplit[1]).Value, CultureInfo.InvariantCulture);
                         motherboard.Width = widthInInch * 2.54F;
                         motherboard.Length = lengthInInch * 2.54F;
                         break;
