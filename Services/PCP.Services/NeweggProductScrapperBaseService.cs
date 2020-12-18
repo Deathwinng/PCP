@@ -43,7 +43,7 @@
         public float? GetPrice(IDocument document)
         {
             var priceAsString = document.QuerySelectorAll(".product-pane .product-price .price .price-current")
-                .LastOrDefault()?.TextContent.Replace("$", string.Empty);
+                .LastOrDefault()?.TextContent.Replace("$", string.Empty).Replace(",", string.Empty);
             float.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out float price);
             return price;
         }

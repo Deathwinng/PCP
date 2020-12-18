@@ -72,7 +72,7 @@
             var urls = this.neweggUrlScraper.GetUrlsForScrapingFromProducts(url, pages);
             var count = urls.Count;
             var counter = 0;
-            Console.WriteLine(count);
+            this.logger.LogInformation(string.Empty + count);
             foreach (var u in urls)
             {
                 try
@@ -102,6 +102,29 @@
             }
 
             return this.View("ScrapeCPUs", new HashSet<string>());
+        }
+
+        public async Task<IActionResult> ScrapeGPUs(string url, int pages)
+        {
+            var urls = this.neweggUrlScraper.GetUrlsForScrapingFromProducts(url, pages);
+            var count = urls.Count;
+            var counter = 0;
+            this.logger.LogInformation(string.Empty + count);
+            foreach (var u in urls)
+            {
+                try
+                {
+                    await this.neweggGPUScraper.ScrapeGPUsFromProductPageAsync(u);
+                }
+                catch (Exception exeption)
+                {
+                    this.logger.LogWarning($"Exeption occured: {exeption.Message}.");
+                }
+
+                this.logger.LogInformation(string.Empty + (count - (++counter)));
+            }
+
+            return this.View("ScrapeCPUs", urls);
         }
 
         public async Task<IActionResult> ScrapeGPU(string url)
