@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using PCP.Data.Common.Models;
+    using PCP.Data.Models.Enums;
 
     public class Motherboard : BaseDeletableModel<int>
     {
@@ -25,6 +26,8 @@
         public int? SeriesId { get; set; }
 
         public Series Series { get; set; }
+
+        public Category Category { get; set; }
 
         public int? SocketId { get; set; }
 

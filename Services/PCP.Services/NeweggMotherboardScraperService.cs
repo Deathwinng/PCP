@@ -7,12 +7,14 @@
     using System.Threading.Tasks;
 
     using AngleSharp;
+    using Microsoft.Extensions.Logging;
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
     using PCP.Data.Models.Motherboard;
 
     public class NeweggMotherboardScraperService : NeweggProductScrapperBaseService, INeweggMotherboardScraperService
     {
+        private readonly ILogger<NeweggMotherboardScraperService> logger;
         private readonly IDeletableEntityRepository<Motherboard> motherboardRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
@@ -26,6 +28,7 @@
         private readonly IDeletableEntityRepository<LanChipset> lanChipsetRepo;
 
         public NeweggMotherboardScraperService(
+            ILogger<NeweggMotherboardScraperService> logger,
             IDeletableEntityRepository<Motherboard> motherboardRepo,
             IDeletableEntityRepository<Brand> brandRepo,
             IDeletableEntityRepository<Series> seriesRepo,
@@ -39,6 +42,7 @@
             IDeletableEntityRepository<LanChipset> lanChipsetRepo)
             : base()
         {
+            this.logger = logger;
             this.motherboardRepo = motherboardRepo;
             this.brandRepo = brandRepo;
             this.seriesRepo = seriesRepo;
@@ -56,7 +60,7 @@
         {
             if (productUrl.Contains("Combo"))
             {
-                Console.WriteLine("Invalid Product.");
+                this.logger.LogWarning("Invalid Product.");
                 return;
             }
 
@@ -67,6 +71,7 @@
             {
                 Price = this.GetPrice(document),
                 ImageUrl = this.GetImageUrl(document),
+                Category = this.GetCategoryFromUrl(productUrl),
             };
 
             foreach (var table in motherboardDataTables)
@@ -130,7 +135,7 @@
                 }
             }
 
-            Console.WriteLine(productUrl);
+            this.logger.LogInformation(productUrl);
 
             foreach (var tableRow in motherboardDataTableRows)
             {
@@ -142,7 +147,7 @@
                     case "Model":
                         if (this.motherboardRepo.AllAsNoTracking().Any(x => x.Model == rowValue))
                         {
-                            Console.WriteLine("Already exists.");
+                            this.logger.LogWarning("Already exists.");
                             return;
                         }
 
@@ -161,12 +166,13 @@
                         motherboard.Brand = brand;
                         break;
                     case "Series":
-                        var series = this.seriesRepo.All().FirstOrDefault(x => x.Name == rowValue);
+                        var seriesName = rowValue.Replace("Series", string.Empty).Trim();
+                        var series = this.seriesRepo.All().FirstOrDefault(x => x.Name == seriesName);
                         if (series == null)
                         {
                             series = new Series
                             {
-                                Name = rowValue,
+                                Name = seriesName,
                             };
                         }
 
@@ -310,8 +316,8 @@
                         break;
                     case "Dimensions (W x L)":
                         var dimensionsSplit = rowValue.Split('x');
-                        var widthInInch = float.Parse(this.MatchOneOrMoreDigitsFloat.Match(dimensionsSplit[0]).Value, CultureInfo.InvariantCulture);
-                        var lengthInInch = float.Parse(this.MatchOneOrMoreDigitsFloat.Match(dimensionsSplit[1]).Value, CultureInfo.InvariantCulture);
+                        var widthInInch = this.MatchAndParseFloat(dimensionsSplit[0]);
+                        var lengthInInch = this.MatchAndParseFloat(dimensionsSplit[1]);
                         motherboard.Width = widthInInch * 2.54F;
                         motherboard.Length = lengthInInch * 2.54F;
                         break;
@@ -326,7 +332,7 @@
 
             if (motherboard.Model == null)
             {
-                Console.WriteLine("Invalid Model.");
+                this.logger.LogWarning("Invalid Model.");
                 return;
             }
 

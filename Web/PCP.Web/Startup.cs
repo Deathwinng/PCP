@@ -68,6 +68,7 @@
             services.AddTransient<INeweggCPUScraperService, NeweggCPUScraperService>();
             services.AddTransient<INeweggMotherboardScraperService, NeweggMotherboardScraperService>();
             services.AddTransient<INeweggGPUScraperService, NeweggGPUScraperService>();
+            services.AddTransient<INeweggMemoryScraperService, NeweggMemoryScraperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

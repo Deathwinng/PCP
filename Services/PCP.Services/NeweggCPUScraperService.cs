@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
 
     using AngleSharp;
+    using Microsoft.Extensions.Logging;
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
     using PCP.Data.Models.CPU;
@@ -15,6 +16,7 @@
 
     public class NeweggCPUScraperService : NeweggProductScrapperBaseService, INeweggCPUScraperService
     {
+        private readonly ILogger<NeweggCPUScraperService> logger;
         private readonly IDeletableEntityRepository<CPU> cpuRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Socket> socketRepo;
@@ -26,6 +28,7 @@
         private readonly IDeletableEntityRepository<Series> seriesRepo;
 
         public NeweggCPUScraperService(
+            ILogger<NeweggCPUScraperService> logger,
             IDeletableEntityRepository<CPU> cpuRepo,
             IDeletableEntityRepository<Brand> brandRepo,
             IDeletableEntityRepository<Socket> socketRepo,
@@ -37,6 +40,7 @@
             IDeletableEntityRepository<Series> seriesRepo)
             : base()
         {
+            this.logger = logger;
             this.cpuRepo = cpuRepo;
             this.brandRepo = brandRepo;
             this.socketRepo = socketRepo;
@@ -52,7 +56,7 @@
         {
             if (productUrl.Contains("Combo"))
             {
-                Console.WriteLine("Invalid Product.");
+                this.logger.LogWarning("Invalid Product.");
                 return;
             }
 
@@ -65,10 +69,10 @@
                 ImageUrl = this.GetImageUrl(document),
             };
 
-            Console.WriteLine(productUrl);
+            this.logger.LogInformation(productUrl);
             foreach (var tr in cpuData)
             {
-                // Console.WriteLine(tr.InnerHtml);
+                // this.logger.LogInformation(tr.InnerHtml);
                 var rowName = tr.FirstChild.TextContent.Trim().Replace("<!-- --> ", string.Empty);
                 var rowValue = tr.LastChild.TextContent.Trim();
 
@@ -77,7 +81,7 @@
                     case "Name":
                         if (this.cpuRepo.AllAsNoTracking().Any(x => x.Name == rowValue))
                         {
-                            Console.WriteLine("Already exists.");
+                            this.logger.LogWarning("Already exists.");
                             return;
                         }
 
@@ -99,17 +103,18 @@
                         cpu.Model = rowValue;
                         break;
                     case "Processors Type":
-                        CPUType type;
-                        Enum.TryParse<CPUType>(rowValue, out type);
-                        cpu.Type = type;
+                        Category type;
+                        Enum.TryParse<Category>(rowValue, out type);
+                        cpu.Category = type;
                         break;
                     case "Series":
-                        var series = this.seriesRepo.All().FirstOrDefault(x => x.Name == rowValue);
+                        var seriesName = rowValue.Replace("Series", string.Empty).Trim();
+                        var series = this.seriesRepo.All().FirstOrDefault(x => x.Name == seriesName);
                         if (series == null)
                         {
                             series = new Series
                             {
-                                Name = rowValue,
+                                Name = seriesName,
                             };
                         }
 
@@ -305,7 +310,7 @@
 
             if (cpu.Name == null)
             {
-                Console.WriteLine("Invalid Name.");
+                this.logger.LogWarning("Invalid Name.");
                 return;
             }
 

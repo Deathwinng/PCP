@@ -23,7 +23,7 @@
 
         public string Model { get; set; }
 
-        public CPUType Type { get; set; }
+        public Category Category { get; set; }
 
         public int? SeriesId { get; set; }
 

@@ -23,9 +23,9 @@
 
         public Category Category { get; set; }
 
-        public byte? NumberOfSticks { get; set; }
+        public byte? NumberOfModules { get; set; }
 
-        public short? CapacityPerStick { get; set; }
+        public int? CapacityPerModule { get; set; }
 
         public int? MemoryTypeId { get; set; }
 
@@ -35,13 +35,13 @@
 
         public MemorySpeed MemorySpeed { get; set; }
 
-        public byte? ColumnAddressStrobeLatency { get; set; }
+        public float? ColumnAddressStrobeLatency { get; set; }
 
         public string Timings { get; set; }
 
         public float? Voltage { get; set; }
 
-        public bool? HeatSpreader { get; set; }
+        public bool HeatSpreader { get; set; }
 
         public string Features { get; set; }
 

@@ -765,6 +765,88 @@ namespace PCP.Data.Migrations
                     b.ToTable("Lithographies");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.Memory.Memory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CapacityPerModule")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("ColumnAddressStrobeLatency")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Features")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FirstAvailable")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("HeatSpreader")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MemorySpeedId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MemoryTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte?>("NumberOfModules")
+                        .HasColumnType("tinyint");
+
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Timings")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("Voltage")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("MemorySpeedId");
+
+                    b.HasIndex("MemoryTypeId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("Memories");
+                });
+
             modelBuilder.Entity("PCP.Data.Models.MemorySpeed", b =>
                 {
                     b.Property<int>("Id")
@@ -1366,6 +1448,33 @@ namespace PCP.Data.Migrations
                     b.Navigation("GPU");
 
                     b.Navigation("Port");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.Memory.Memory", b =>
+                {
+                    b.HasOne("PCP.Data.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("PCP.Data.Models.MemorySpeed", "MemorySpeed")
+                        .WithMany()
+                        .HasForeignKey("MemorySpeedId");
+
+                    b.HasOne("PCP.Data.Models.MemoryType", "MemoryType")
+                        .WithMany()
+                        .HasForeignKey("MemoryTypeId");
+
+                    b.HasOne("PCP.Data.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("MemorySpeed");
+
+                    b.Navigation("MemoryType");
+
+                    b.Navigation("Series");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.Motherboard.Motherboard", b =>

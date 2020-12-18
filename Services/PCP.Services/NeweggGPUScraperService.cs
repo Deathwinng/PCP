@@ -61,6 +61,7 @@
             {
                 Price = this.GetPrice(document),
                 ImageUrl = this.GetImageUrl(document),
+                Category = this.GetCategoryFromUrl(productUrl),
             };
 
             foreach (var table in gpuDataTables)
@@ -324,8 +325,8 @@
                         break;
                     case "Card Dimensions (L x H)":
                         var dimensionsSplit = rowValue.Split('x');
-                        var lenghtInInch = float.Parse(this.MatchOneOrMoreDigitsFloat.Match(dimensionsSplit[0]).Value, CultureInfo.InvariantCulture);
-                        var heightInInch = float.Parse(this.MatchOneOrMoreDigitsFloat.Match(dimensionsSplit[1]).Value, CultureInfo.InvariantCulture);
+                        var lenghtInInch = this.MatchAndParseFloat(dimensionsSplit[0]);
+                        var heightInInch = this.MatchAndParseFloat(dimensionsSplit[1]);
                         gpu.Length = lenghtInInch * 2.54F;
                         gpu.Height = heightInInch * 2.54F;
                         break;

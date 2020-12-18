@@ -6,6 +6,7 @@
 
     using AngleSharp;
     using AngleSharp.Dom;
+    using PCP.Data.Models.Enums;
 
     public class NeweggProductScrapperBaseService
     {
@@ -24,6 +25,43 @@
         public Regex MatchOneOrMoreDigits { get; set; }
 
         public Regex MatchOneOrMoreDigitsFloat { get; set; }
+
+        public Category GetCategoryFromUrl(string productUrl)
+        {
+            var productUrlLower = productUrl.ToLower();
+            if (productUrlLower.Contains("desktop"))
+            {
+                return Category.Desktop;
+            }
+
+            if (productUrlLower.Contains("server"))
+            {
+                return Category.Server;
+            }
+
+            if (productUrlLower.Contains("workstation"))
+            {
+                return Category.Workstation;
+            }
+
+            if (productUrlLower.Contains("mobile") || productUrlLower.Contains("laptop"))
+            {
+                return Category.Mobile;
+            }
+
+            return Category.Desktop;
+        }
+
+        public float? MatchAndParseFloat(string stringToParse)
+        {
+            var match = this.MatchOneOrMoreDigitsFloat.Match(stringToParse);
+            if (!match.Success)
+            {
+                return null;
+            }
+
+            return float.Parse(match.Value, CultureInfo.InvariantCulture);
+        }
 
         public string GetImageUrl(IDocument document)
         {
