@@ -12,6 +12,7 @@
     using PCP.Data.Models;
     using PCP.Data.Models.CPU;
     using PCP.Data.Models.GPU;
+    using PCP.Data.Models.HDD;
     using PCP.Data.Models.Memory;
     using PCP.Data.Models.Motherboard;
 
@@ -63,13 +64,17 @@
 
         public DbSet<GPUCore> GPUCores { get; set; }
 
-        public DbSet<GPUInterface> GPUInterfaces { get; set; }
+        public DbSet<Interface> Interfaces { get; set; }
 
         public DbSet<Port> Ports { get; set; }
 
         public DbSet<GPUPort> GPUPorts { get; set; }
 
         public DbSet<Memory> Memories { get; set; }
+
+        public DbSet<HDD> HDDs { get; set; }
+
+        public DbSet<HDDUsage> HDDUsages { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

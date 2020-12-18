@@ -17,7 +17,7 @@
         private readonly IDeletableEntityRepository<GPU> gpuRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
-        private readonly IDeletableEntityRepository<GPUInterface> interfeceRepo;
+        private readonly IDeletableEntityRepository<Interface> interfeceRepo;
         private readonly IDeletableEntityRepository<MemoryType> memoryTypeRepo;
         private readonly IDeletableEntityRepository<GPUCore> coreRepo;
         private readonly IDeletableEntityRepository<GPUChipset> chipsetRepo;
@@ -28,7 +28,7 @@
             IDeletableEntityRepository<GPU> gpuRepo,
             IDeletableEntityRepository<Brand> brandRepo,
             IDeletableEntityRepository<Series> seriesRepo,
-            IDeletableEntityRepository<GPUInterface> interfeceRepo,
+            IDeletableEntityRepository<Interface> interfeceRepo,
             IDeletableEntityRepository<MemoryType> memoryTypeRepo,
             IDeletableEntityRepository<GPUCore> coreRepo,
             IDeletableEntityRepository<GPUChipset> chipsetRepo,
@@ -238,7 +238,7 @@
                         var gpuInterface = this.interfeceRepo.All().FirstOrDefault(x => x.Name == rowValue);
                         if (gpuInterface == null)
                         {
-                            gpuInterface = new GPUInterface
+                            gpuInterface = new Interface
                             {
                                 Name = rowValue,
                             };

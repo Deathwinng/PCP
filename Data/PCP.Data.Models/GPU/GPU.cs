@@ -31,7 +31,7 @@
 
         public int? GPUInterfaceId { get; set; }
 
-        public GPUInterface GPUInterface { get; set; }
+        public Interface GPUInterface { get; set; }
 
         public int? GPUChipsetId { get; set; }
 
