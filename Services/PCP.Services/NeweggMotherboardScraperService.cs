@@ -12,7 +12,7 @@
     using PCP.Data.Models;
     using PCP.Data.Models.Motherboard;
 
-    public class NeweggMotherboardScraperService : NeweggProductScrapperBaseService, INeweggMotherboardScraperService
+    public class NeweggMotherboardScraperService : BaseNeweggProductScrapperService, INeweggMotherboardScraperService
     {
         private readonly ILogger<NeweggMotherboardScraperService> logger;
         private readonly IDeletableEntityRepository<Motherboard> motherboardRepo;

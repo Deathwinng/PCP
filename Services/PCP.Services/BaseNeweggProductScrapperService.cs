@@ -6,13 +6,16 @@
 
     using AngleSharp;
     using AngleSharp.Dom;
+    using PCP.Data.Common.Models;
+    using PCP.Data.Common.Repositories;
+    using PCP.Data.Models;
     using PCP.Data.Models.Enums;
 
-    public class NeweggProductScrapperBaseService
+    public class BaseNeweggProductScrapperService
     {
         private readonly IConfiguration configuration;
 
-        public NeweggProductScrapperBaseService()
+        public BaseNeweggProductScrapperService()
         {
             this.configuration = Configuration.Default.WithDefaultLoader();
             this.Context = BrowsingContext.New(this.configuration);
@@ -25,6 +28,35 @@
         public Regex MatchOneOrMoreDigits { get; set; }
 
         public Regex MatchOneOrMoreDigitsFloat { get; set; }
+
+        public Brand GetOrCreateBrand(IDeletableEntityRepository<Brand> brandRepository, string name)
+        {
+            var brand = brandRepository.All().FirstOrDefault(x => x.Name == name);
+            if (brand == null)
+            {
+                brand = new Brand
+                {
+                    Name = name,
+                };
+            }
+
+            return brand;
+        }
+
+        public Series GetOrCreateSeries(IDeletableEntityRepository<Series> seriesRepository, string name)
+        {
+            var seriesName = name.Replace("Series", string.Empty).Trim();
+            var series = seriesRepository.All().FirstOrDefault(x => x.Name == seriesName);
+            if (series == null)
+            {
+                series = new Series
+                {
+                    Name = seriesName,
+                };
+            }
+
+            return series;
+        }
 
         public Category GetCategoryFromUrl(string productUrl)
         {

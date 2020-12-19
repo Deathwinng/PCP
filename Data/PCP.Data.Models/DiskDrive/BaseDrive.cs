@@ -1,6 +1,6 @@
 ﻿namespace PCP.Data.Models
 {
-    public class BaseDiskDrive : BaseProduct
+    public abstract class BaseDrive : BaseProduct
     {
         public int? InterfaceId { get; set; }
 

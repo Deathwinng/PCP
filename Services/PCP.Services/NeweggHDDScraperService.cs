@@ -6,11 +6,12 @@
 
     using AngleSharp;
     using Microsoft.Extensions.Logging;
+    using PCP.Data.Common.Models;
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
     using PCP.Data.Models.DiskDrive;
 
-    public class NeweggHDDScraperService : NeweggProductScrapperBaseService, INeweggHDDScraperService
+    public class NeweggHDDScraperService : BaseNeweggProductScrapperService, INeweggHDDScraperService
     {
         private readonly ILogger<NeweggMemoryScraperService> logger;
         private readonly IDeletableEntityRepository<HDD> hddRepo;
@@ -76,29 +77,10 @@
                         hdd.Model = rowValue;
                         break;
                     case "Brand":
-                        var brand = this.brandRepo.All().FirstOrDefault(x => x.Name == rowValue);
-                        if (brand == null)
-                        {
-                            brand = new Brand
-                            {
-                                Name = rowValue,
-                            };
-                        }
-
-                        hdd.Brand = brand;
+                        hdd.Brand = this.GetOrCreateBrand(this.brandRepo, rowValue);
                         break;
                     case "Series":
-                        var seriesName = rowValue.Replace("Series", string.Empty).Trim();
-                        var series = this.seriesRepo.All().FirstOrDefault(x => x.Name == seriesName);
-                        if (series == null)
-                        {
-                            series = new Series
-                            {
-                                Name = seriesName,
-                            };
-                        }
-
-                        hdd.Series = series;
+                        hdd.Series = this.GetOrCreateSeries(this.seriesRepo, rowValue);
                         break;
                     case "Interface":
                         var hddInterface = this.interfaceRepo.All().FirstOrDefault(x => x.Name == rowValue);

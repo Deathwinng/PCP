@@ -17,6 +17,7 @@
         private readonly INeweggGPUScraperService neweggGPUScraper;
         private readonly INeweggMemoryScraperService neweggMemoryScraper;
         private readonly INeweggHDDScraperService neweggHDDScraper;
+        private readonly INeweggSSDScraperService neweggSSDScraper;
 
         public TestController(
             ILogger<TestController> logger,
@@ -25,7 +26,8 @@
             INeweggMotherboardScraperService neweggMotherboardScraper,
             INeweggGPUScraperService neweggGPUScraper,
             INeweggMemoryScraperService neweggMemoryScraper,
-            INeweggHDDScraperService neweggHDDScraper)
+            INeweggHDDScraperService neweggHDDScraper,
+            INeweggSSDScraperService neweggSSDScraper)
         {
             this.logger = logger;
             this.neweggUrlScraper = neweggUrlScraper;
@@ -34,6 +36,7 @@
             this.neweggGPUScraper = neweggGPUScraper;
             this.neweggMemoryScraper = neweggMemoryScraper;
             this.neweggHDDScraper = neweggHDDScraper;
+            this.neweggSSDScraper = neweggSSDScraper;
         }
 
         public async Task<IActionResult> ScrapeCPUs(string url, int pages)
@@ -212,6 +215,43 @@
             try
             {
                 await this.neweggHDDScraper.ScrapeHDDFromProductPageAsync(url);
+            }
+            catch (Exception exeption)
+            {
+                this.logger.LogWarning($"Exeption occured: {exeption.Message}.");
+            }
+
+            return this.View("ScrapeCPUs", new HashSet<string>());
+        }
+
+        public async Task<IActionResult> ScrapeSSDs(string url, int pages)
+        {
+            var urls = this.neweggUrlScraper.GetUrlsForScrapingFromProducts(url, pages);
+            var count = urls.Count;
+            var counter = 0;
+            this.logger.LogInformation(string.Empty + count);
+            foreach (var u in urls)
+            {
+                try
+                {
+                    await this.neweggSSDScraper.ScrapeSSDFromProductPageAsync(u);
+                }
+                catch (Exception exeption)
+                {
+                    this.logger.LogWarning($"Exeption occured: {exeption.Message}.");
+                }
+
+                this.logger.LogInformation(string.Empty + (count - (++counter)));
+            }
+
+            return this.View("ScrapeCPUs", urls);
+        }
+
+        public async Task<IActionResult> ScrapeSSD(string url)
+        {
+            try
+            {
+                await this.neweggSSDScraper.ScrapeSSDFromProductPageAsync(url);
             }
             catch (Exception exeption)
             {

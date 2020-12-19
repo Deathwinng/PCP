@@ -11,7 +11,7 @@
     using PCP.Data.Models;
     using PCP.Data.Models.GPU;
 
-    public class NeweggGPUScraperService : NeweggProductScrapperBaseService, INeweggGPUScraperService
+    public class NeweggGPUScraperService : BaseNeweggProductScrapperService, INeweggGPUScraperService
     {
         private readonly ILogger<NeweggGPUScraperService> logger;
         private readonly IDeletableEntityRepository<GPU> gpuRepo;

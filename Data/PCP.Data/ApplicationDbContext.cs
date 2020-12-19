@@ -76,6 +76,8 @@
 
         public DbSet<SSD> SSDs { get; set; }
 
+        public DbSet<MemoryComponent> MemoryComponents { get; set; }
+
         public DbSet<DiskForUsage> Usages { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
