@@ -1,33 +1,13 @@
 ﻿namespace PCP.Data.Models.Motherboard
 {
-    using System;
     using System.Collections.Generic;
 
-    using PCP.Data.Common.Models;
-    using PCP.Data.Models.Enums;
-
-    public class Motherboard : BaseDeletableModel<int>
+    public class Motherboard : BaseProduct
     {
         public Motherboard()
         {
             this.MotherboardMemoryType = new HashSet<MotherboardMemoryType>();
         }
-
-        public float? Price { get; set; }
-
-        public string ImageUrl { get; set; }
-
-        public int BrandId { get; set; }
-
-        public Brand Brand { get; set; }
-
-        public string Model { get; set; }
-
-        public int? SeriesId { get; set; }
-
-        public Series Series { get; set; }
-
-        public Category Category { get; set; }
 
         public int? SocketId { get; set; }
 
@@ -76,7 +56,5 @@
         public float? Length { get; set; }
 
         public string Features { get; set; }
-
-        public DateTime? FirstAvailable { get; set; }
     }
 }

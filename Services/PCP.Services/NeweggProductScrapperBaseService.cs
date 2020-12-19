@@ -65,7 +65,7 @@
 
         public string GetImageUrl(IDocument document)
         {
-            return document.QuerySelector("#side-swiper-container .swiper-slide[style='order: -1'] img")?.GetAttribute("src");
+            return document.QuerySelector("#side-swiper-container .swiper-slide[style=\"order:-1\"] img")?.GetAttribute("src");
         }
 
         public IHtmlCollection<IElement> GetAllTablesRows(IDocument document)

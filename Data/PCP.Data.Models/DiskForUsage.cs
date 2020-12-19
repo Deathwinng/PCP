@@ -1,8 +1,8 @@
-﻿namespace PCP.Data.Models.HDD
+﻿namespace PCP.Data.Models
 {
     using PCP.Data.Common.Models;
 
-    public class HDDUsage : BaseDeletableModel<int>
+    public class DiskForUsage : BaseDeletableModel<int>
     {
         public string Name { get; set; }
     }

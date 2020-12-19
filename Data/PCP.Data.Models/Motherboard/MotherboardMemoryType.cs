@@ -4,7 +4,7 @@
 
     public class MotherboardMemoryType : BaseDeletableModel<int>
     {
-        public int MotherboardId { get; set; }
+        public string MotherboardId { get; set; }
 
         public Motherboard Motherboard { get; set; }
 

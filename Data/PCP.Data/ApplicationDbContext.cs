@@ -11,8 +11,8 @@
     using PCP.Data.Common.Models;
     using PCP.Data.Models;
     using PCP.Data.Models.CPU;
+    using PCP.Data.Models.DiskDrive;
     using PCP.Data.Models.GPU;
-    using PCP.Data.Models.HDD;
     using PCP.Data.Models.Memory;
     using PCP.Data.Models.Motherboard;
 
@@ -74,7 +74,9 @@
 
         public DbSet<HDD> HDDs { get; set; }
 
-        public DbSet<HDDUsage> HDDUsages { get; set; }
+        public DbSet<SSD> SSDs { get; set; }
+
+        public DbSet<DiskForUsage> Usages { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

@@ -3,12 +3,12 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using AngleSharp;
     using Microsoft.Extensions.Logging;
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
-    using PCP.Data.Models.HDD;
-    using PCP.Data.Models.Memory;
+    using PCP.Data.Models.DiskDrive;
 
     public class NeweggHDDScraperService : NeweggProductScrapperBaseService, INeweggHDDScraperService
     {
@@ -17,7 +17,7 @@
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
         private readonly IDeletableEntityRepository<Interface> interfaceRepo;
-        private readonly IDeletableEntityRepository<HDDUsage> usageRepo;
+        private readonly IDeletableEntityRepository<DiskForUsage> usageRepo;
         private readonly IDeletableEntityRepository<FormFactor> formFactorRepo;
 
         public NeweggHDDScraperService(
@@ -26,7 +26,7 @@
             IDeletableEntityRepository<Brand> brandRepo,
             IDeletableEntityRepository<Series> seriesRepo,
             IDeletableEntityRepository<Interface> interfaceRepo,
-            IDeletableEntityRepository<HDDUsage> usageRepo,
+            IDeletableEntityRepository<DiskForUsage> usageRepo,
             IDeletableEntityRepository<FormFactor> formFactorRepo)
             : base()
         {
@@ -158,7 +158,7 @@
                         var usage = this.usageRepo.All().FirstOrDefault(x => x.Name == rowValue);
                         if (usage == null)
                         {
-                            usage = new HDDUsage
+                            usage = new DiskForUsage
                             {
                                 Name = rowValue,
                             };

@@ -1,33 +1,14 @@
 ﻿namespace PCP.Data.Models.CPU
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
-    using PCP.Data.Common.Models;
     using PCP.Data.Models;
-    using PCP.Data.Models.Enums;
 
-    public class CPU : BaseDeletableModel<int>
+    public class CPU : BaseProduct
     {
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-
-        public float? Price { get; set; }
-
-        public string ImageUrl { get; set; }
-
-        public int? BrandId { get; set; }
-
-        public Brand Brand { get; set; }
-
-        public string Model { get; set; }
-
-        public Category Category { get; set; }
-
-        public int? SeriesId { get; set; }
-
-        public Series Series { get; set; }
 
         public int? SocketId { get; set; }
 
@@ -80,7 +61,5 @@
         public short? ThermalDesignPower { get; set; }
 
         public bool? HasCoolingDevice { get; set; }
-
-        public DateTime? FirstAvailable { get; set; }
     }
 }

@@ -10,23 +10,23 @@ using PCP.Data;
 namespace PCP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201217141451_AddImageUrlToMainTables")]
-    partial class AddImageUrlToMainTables
+    [Migration("20201219112535_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -50,7 +50,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -147,12 +147,12 @@ namespace PCP.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -160,7 +160,7 @@ namespace PCP.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -185,8 +185,8 @@ namespace PCP.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -204,12 +204,12 @@ namespace PCP.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -227,19 +227,19 @@ namespace PCP.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
@@ -250,7 +250,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -276,12 +276,13 @@ namespace PCP.Data.Migrations
 
             modelBuilder.Entity("PCP.Data.Models.CPU.CPU", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<int?>("CoreNameId")
@@ -343,8 +344,8 @@ namespace PCP.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<byte?>("PCIELanes")
                         .HasColumnType("tinyint");
@@ -372,9 +373,6 @@ namespace PCP.Data.Migrations
 
                     b.Property<short?>("TurboFrequency")
                         .HasColumnType("smallint");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.Property<bool?>("VirtualizationSupport")
                         .HasColumnType("bit");
@@ -407,7 +405,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -431,12 +429,208 @@ namespace PCP.Data.Migrations
                     b.ToTable("CoreNames");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.DiskDrive.HDD", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CacheKb")
+                        .HasColumnType("int");
+
+                    b.Property<short?>("CapacityGb")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Features")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FirstAvailable")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FormFactorId")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("InterfaceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<float?>("Length")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<short?>("RevolutionsPerMinute")
+                        .HasColumnType("smallint");
+
+                    b.Property<int?>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UsageId")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Width")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("FormFactorId");
+
+                    b.HasIndex("InterfaceId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("SeriesId");
+
+                    b.HasIndex("UsageId");
+
+                    b.ToTable("HDDs");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.DiskDrive.SSD", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CacheKb")
+                        .HasColumnType("int");
+
+                    b.Property<short?>("CapacityGb")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Features")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FirstAvailable")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FormFactorId")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("InterfaceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<float?>("Length")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UsageId")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Width")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("FormFactorId");
+
+                    b.HasIndex("InterfaceId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("SeriesId");
+
+                    b.HasIndex("UsageId");
+
+                    b.ToTable("SSDs");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.DiskForUsage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Usages");
+                });
+
             modelBuilder.Entity("PCP.Data.Models.FormFactor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -462,12 +656,13 @@ namespace PCP.Data.Migrations
 
             modelBuilder.Entity("PCP.Data.Models.GPU.GPU", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -482,7 +677,7 @@ namespace PCP.Data.Migrations
                     b.Property<string>("Features")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FirstAvailable")
+                    b.Property<DateTime?>("FirstAvailable")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("GPUChipsetId")
@@ -558,7 +753,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<short?>("CoreClock")
                         .HasColumnType("smallint");
@@ -595,7 +790,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
@@ -632,41 +827,12 @@ namespace PCP.Data.Migrations
                     b.ToTable("GPUCores");
                 });
 
-            modelBuilder.Entity("PCP.Data.Models.GPU.GPUInterface", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("GPUInterfaces");
-                });
-
             modelBuilder.Entity("PCP.Data.Models.GPU.GPUPort", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -676,6 +842,9 @@ namespace PCP.Data.Migrations
 
                     b.Property<int>("GPUId")
                         .HasColumnType("int");
+
+                    b.Property<string>("GPUId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -691,7 +860,7 @@ namespace PCP.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GPUId");
+                    b.HasIndex("GPUId1");
 
                     b.HasIndex("IsDeleted");
 
@@ -705,7 +874,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<short?>("BaseFrequency")
                         .HasColumnType("smallint");
@@ -735,12 +904,41 @@ namespace PCP.Data.Migrations
                     b.ToTable("IntegratedGraphics");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.Interface", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Interfaces");
+                });
+
             modelBuilder.Entity("PCP.Data.Models.Lithography", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -764,12 +962,92 @@ namespace PCP.Data.Migrations
                     b.ToTable("Lithographies");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.Memory.Memory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CapacityPerModule")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("ColumnAddressStrobeLatency")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Features")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FirstAvailable")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("HeatSpreader")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MemorySpeedId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MemoryTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte?>("NumberOfModules")
+                        .HasColumnType("tinyint");
+
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Timings")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("Voltage")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("MemorySpeedId");
+
+                    b.HasIndex("MemoryTypeId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("Memories");
+                });
+
             modelBuilder.Entity("PCP.Data.Models.MemorySpeed", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -798,7 +1076,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -827,7 +1105,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<float?>("Channels")
                         .HasColumnType("real");
@@ -859,7 +1137,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -885,15 +1163,16 @@ namespace PCP.Data.Migrations
 
             modelBuilder.Entity("PCP.Data.Models.Motherboard.Motherboard", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("AudioChipsetId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BrandId")
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<int?>("ChipsetId")
@@ -1000,7 +1279,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -1020,8 +1299,8 @@ namespace PCP.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MotherboardId")
-                        .HasColumnType("int");
+                    b.Property<string>("MotherboardId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -1041,7 +1320,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -1070,7 +1349,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -1099,7 +1378,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -1128,7 +1407,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -1160,7 +1439,7 @@ namespace PCP.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -1268,6 +1547,88 @@ namespace PCP.Data.Migrations
                     b.HasOne("PCP.Data.Models.Socket", "Socket")
                         .WithMany()
                         .HasForeignKey("SocketId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("CoreName");
+
+                    b.Navigation("IntegratedGraphic");
+
+                    b.Navigation("Lithography");
+
+                    b.Navigation("MemorySpeed");
+
+                    b.Navigation("MemoryType");
+
+                    b.Navigation("Series");
+
+                    b.Navigation("Socket");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.DiskDrive.HDD", b =>
+                {
+                    b.HasOne("PCP.Data.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("PCP.Data.Models.FormFactor", "FormFactor")
+                        .WithMany()
+                        .HasForeignKey("FormFactorId");
+
+                    b.HasOne("PCP.Data.Models.Interface", "Interface")
+                        .WithMany()
+                        .HasForeignKey("InterfaceId");
+
+                    b.HasOne("PCP.Data.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
+
+                    b.HasOne("PCP.Data.Models.DiskForUsage", "Usage")
+                        .WithMany()
+                        .HasForeignKey("UsageId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("FormFactor");
+
+                    b.Navigation("Interface");
+
+                    b.Navigation("Series");
+
+                    b.Navigation("Usage");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.DiskDrive.SSD", b =>
+                {
+                    b.HasOne("PCP.Data.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("PCP.Data.Models.FormFactor", "FormFactor")
+                        .WithMany()
+                        .HasForeignKey("FormFactorId");
+
+                    b.HasOne("PCP.Data.Models.Interface", "Interface")
+                        .WithMany()
+                        .HasForeignKey("InterfaceId");
+
+                    b.HasOne("PCP.Data.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
+
+                    b.HasOne("PCP.Data.Models.DiskForUsage", "Usage")
+                        .WithMany()
+                        .HasForeignKey("UsageId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("FormFactor");
+
+                    b.Navigation("Interface");
+
+                    b.Navigation("Series");
+
+                    b.Navigation("Usage");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.GPU.GPU", b =>
@@ -1280,7 +1641,7 @@ namespace PCP.Data.Migrations
                         .WithMany()
                         .HasForeignKey("GPUChipsetId");
 
-                    b.HasOne("PCP.Data.Models.GPU.GPUInterface", "GPUInterface")
+                    b.HasOne("PCP.Data.Models.Interface", "GPUInterface")
                         .WithMany()
                         .HasForeignKey("GPUInterfaceId");
 
@@ -1291,6 +1652,16 @@ namespace PCP.Data.Migrations
                     b.HasOne("PCP.Data.Models.Series", "Series")
                         .WithMany()
                         .HasForeignKey("SeriesId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("GPUChipset");
+
+                    b.Navigation("GPUInterface");
+
+                    b.Navigation("MemoryType");
+
+                    b.Navigation("Series");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.GPU.GPUChipset", b =>
@@ -1298,6 +1669,8 @@ namespace PCP.Data.Migrations
                     b.HasOne("PCP.Data.Models.GPU.GPUCore", "GPUCore")
                         .WithMany()
                         .HasForeignKey("GPUCoreId");
+
+                    b.Navigation("GPUCore");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.GPU.GPUCore", b =>
@@ -1311,21 +1684,54 @@ namespace PCP.Data.Migrations
                     b.HasOne("PCP.Data.Models.Series", "Series")
                         .WithMany()
                         .HasForeignKey("SeriesId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Series");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.GPU.GPUPort", b =>
                 {
                     b.HasOne("PCP.Data.Models.GPU.GPU", "GPU")
                         .WithMany("GPUPorts")
-                        .HasForeignKey("GPUId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("GPUId1");
 
                     b.HasOne("PCP.Data.Models.Port", "Port")
                         .WithMany()
                         .HasForeignKey("PortId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("GPU");
+
+                    b.Navigation("Port");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.Memory.Memory", b =>
+                {
+                    b.HasOne("PCP.Data.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("PCP.Data.Models.MemorySpeed", "MemorySpeed")
+                        .WithMany()
+                        .HasForeignKey("MemorySpeedId");
+
+                    b.HasOne("PCP.Data.Models.MemoryType", "MemoryType")
+                        .WithMany()
+                        .HasForeignKey("MemoryTypeId");
+
+                    b.HasOne("PCP.Data.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("MemorySpeed");
+
+                    b.Navigation("MemoryType");
+
+                    b.Navigation("Series");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.Motherboard.Motherboard", b =>
@@ -1336,9 +1742,7 @@ namespace PCP.Data.Migrations
 
                     b.HasOne("PCP.Data.Models.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("BrandId");
 
                     b.HasOne("PCP.Data.Models.Motherboard.MothrboardChipset", "Chipset")
                         .WithMany()
@@ -1359,6 +1763,20 @@ namespace PCP.Data.Migrations
                     b.HasOne("PCP.Data.Models.Socket", "Socket")
                         .WithMany()
                         .HasForeignKey("SocketId");
+
+                    b.Navigation("AudioChipset");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Chipset");
+
+                    b.Navigation("FormFactor");
+
+                    b.Navigation("LanChipset");
+
+                    b.Navigation("Series");
+
+                    b.Navigation("Socket");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.Motherboard.MotherboardMemoryType", b =>
@@ -1375,9 +1793,32 @@ namespace PCP.Data.Migrations
 
                     b.HasOne("PCP.Data.Models.Motherboard.Motherboard", "Motherboard")
                         .WithMany("MotherboardMemoryType")
-                        .HasForeignKey("MotherboardId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("MotherboardId");
+
+                    b.Navigation("MemorySpeed");
+
+                    b.Navigation("MemoryType");
+
+                    b.Navigation("Motherboard");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.GPU.GPU", b =>
+                {
+                    b.Navigation("GPUPorts");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.Motherboard.Motherboard", b =>
+                {
+                    b.Navigation("MotherboardMemoryType");
                 });
 #pragma warning restore 612, 618
         }

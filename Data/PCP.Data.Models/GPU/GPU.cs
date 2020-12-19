@@ -1,33 +1,13 @@
 ﻿namespace PCP.Data.Models.GPU
 {
-    using System;
     using System.Collections.Generic;
 
-    using PCP.Data.Common.Models;
-    using PCP.Data.Models.Enums;
-
-    public class GPU : BaseDeletableModel<int>
+    public class GPU : BaseProduct
     {
         public GPU()
         {
             this.GPUPorts = new HashSet<GPUPort>();
         }
-
-        public float? Price { get; set; }
-
-        public string ImageUrl { get; set; }
-
-        public int? BrandId { get; set; }
-
-        public Brand Brand { get; set; }
-
-        public string Model { get; set; }
-
-        public int? SeriesId { get; set; }
-
-        public Series Series { get; set; }
-
-        public Category Category { get; set; }
 
         public int? GPUInterfaceId { get; set; }
 
@@ -62,7 +42,5 @@
         public float? Height { get; set; }
 
         public float? SlotWidth { get; set; }
-
-        public DateTime FirstAvailable { get; set; }
     }
 }
