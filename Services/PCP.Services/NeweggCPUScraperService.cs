@@ -70,11 +70,11 @@
             };
 
             this.logger.LogInformation(productUrl);
-            foreach (var tr in cpuData)
+            foreach (var tableRow in cpuData)
             {
                 // this.logger.LogInformation(tr.InnerHtml);
-                var rowName = tr.FirstChild.TextContent.Trim().Replace("<!-- --> ", string.Empty);
-                var rowValue = tr.LastChild.TextContent.Trim();
+                var rowName = tableRow.FirstChild.TextContent.Trim().Replace("<!-- --> ", string.Empty);
+                var rowValue = tableRow.LastElementChild.InnerHtml.Replace("<br><br>", "{n}").Replace("<br>", "{n}").Trim();
 
                 switch (rowName)
                 {

@@ -12,7 +12,7 @@
 
     public class NeweggHDDScraperService : BaseNeweggProductScraperService, INeweggHDDScraperService
     {
-        private readonly ILogger<NeweggMemoryScraperService> logger;
+        private readonly ILogger<NeweggHDDScraperService> logger;
         private readonly IDeletableEntityRepository<HDD> hddRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
@@ -21,7 +21,7 @@
         private readonly IDeletableEntityRepository<FormFactor> formFactorRepo;
 
         public NeweggHDDScraperService(
-            ILogger<NeweggMemoryScraperService> logger,
+            ILogger<NeweggHDDScraperService> logger,
             IDeletableEntityRepository<HDD> hddRepo,
             IDeletableEntityRepository<Brand> brandRepo,
             IDeletableEntityRepository<Series> seriesRepo,
@@ -62,7 +62,7 @@
             foreach (var tableRow in hddDataTableRows)
             {
                 var rowName = tableRow.FirstChild.TextContent.Trim();
-                var rowValue = tableRow.LastChild.TextContent.Trim();
+                var rowValue = tableRow.LastElementChild.InnerHtml.Replace("<br><br>", "{n}").Replace("<br>", "{n}").Trim();
 
                 switch (rowName)
                 {

@@ -10,6 +10,7 @@
     using Microsoft.EntityFrameworkCore;
     using PCP.Data.Common.Models;
     using PCP.Data.Models;
+    using PCP.Data.Models.Case;
     using PCP.Data.Models.CPU;
     using PCP.Data.Models.CPUCooler;
     using PCP.Data.Models.DiskDrive;
@@ -90,6 +91,18 @@
         public DbSet<CoolerBearingType> CoolerBearingTypes { get; set; }
 
         public DbSet<CoolerLEDType> CoolerLEDTypes { get; set; }
+
+        public DbSet<Case> Cases { get; set; }
+
+        public DbSet<CaseFormFactor> CaseFormFactors { get; set; }
+
+        public DbSet<CaseMaterial> CaseMaterials { get; set; }
+
+        public DbSet<CaseType> CaseTypes { get; set; }
+
+        public DbSet<Color> Colors { get; set; }
+
+        public DbSet<Material> Materials { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

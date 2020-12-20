@@ -83,7 +83,8 @@
                 {
                     case "Onboard Audio":
                         var audioChipsetName = tableRows[0].LastChild.TextContent.Trim();
-                        var firstLine = tableRows[1].LastChild.TextContent.Split("\n");
+                        var firstLine = tableRows[1].LastElementChild
+                                .InnerHtml.Replace("<br><br>", "{n}").Replace("<br>", "{n}").Trim().Split("{n}");
                         var matches = this.MatchOneOrMoreDigitsFloat.Matches(firstLine[0]);
                         float channels = 0;
                         foreach (Match match in matches)
@@ -140,7 +141,7 @@
             foreach (var tableRow in motherboardDataTableRows)
             {
                 var rowName = tableRow.FirstChild.TextContent.Trim();
-                var rowValue = tableRow.LastChild.TextContent.Trim();
+                var rowValue = tableRow.LastElementChild.InnerHtml.Replace("<br><br>", "{n}").Replace("<br>", "{n}").Trim();
 
                 switch (rowName)
                 {
@@ -206,7 +207,7 @@
                         motherboard.MemorySlots = int.Parse(this.MatchOneOrMoreDigits.Match(rowValue).Value);
                         break;
                     case "Memory Standard":
-                        var lines = rowValue.Split("\n");
+                        var lines = rowValue.Split("{n}");
                         foreach (var line in lines)
                         {
                             var typeMatch = new Regex(@"DDR\d\w?").Match(line);

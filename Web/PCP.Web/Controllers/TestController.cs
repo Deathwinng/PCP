@@ -19,6 +19,7 @@
         private readonly INeweggHDDScraperService neweggHDDScraper;
         private readonly INeweggSSDScraperService neweggSSDScraper;
         private readonly INeweggAirCPUCoolerScraperService neweggAirCPUCoolerScraper;
+        private readonly INeweggCaseScraperService neweggCaseScraper;
 
         public TestController(
             ILogger<TestController> logger,
@@ -29,7 +30,8 @@
             INeweggMemoryScraperService neweggMemoryScraper,
             INeweggHDDScraperService neweggHDDScraper,
             INeweggSSDScraperService neweggSSDScraper,
-            INeweggAirCPUCoolerScraperService neweggAirCPUCoolerScraper)
+            INeweggAirCPUCoolerScraperService neweggAirCPUCoolerScraper,
+            INeweggCaseScraperService neweggCaseScraper)
         {
             this.logger = logger;
             this.neweggUrlScraper = neweggUrlScraper;
@@ -40,6 +42,7 @@
             this.neweggHDDScraper = neweggHDDScraper;
             this.neweggSSDScraper = neweggSSDScraper;
             this.neweggAirCPUCoolerScraper = neweggAirCPUCoolerScraper;
+            this.neweggCaseScraper = neweggCaseScraper;
         }
 
         public async Task<IActionResult> ScrapeCPUs(string url, int pages)
@@ -292,6 +295,43 @@
             try
             {
                 await this.neweggAirCPUCoolerScraper.ScrapeAirCPUCoolerFromProductPageAsync(url);
+            }
+            catch (Exception exeption)
+            {
+                this.logger.LogWarning($"Exeption occured: {exeption.Message}.");
+            }
+
+            return this.View("ScrapeCPUs", new HashSet<string>());
+        }
+
+        public async Task<IActionResult> ScrapeCases(string url, int pages)
+        {
+            var urls = this.neweggUrlScraper.GetUrlsForScrapingFromProducts(url, pages);
+            var count = urls.Count;
+            var counter = 0;
+            this.logger.LogInformation(string.Empty + count);
+            foreach (var u in urls)
+            {
+                try
+                {
+                    await this.neweggCaseScraper.ScrapeCaseFromProductPageAsync(u);
+                }
+                catch (Exception exeption)
+                {
+                    this.logger.LogWarning($"Exeption occured: {exeption.Message}.");
+                }
+
+                this.logger.LogInformation(string.Empty + (count - (++counter)));
+            }
+
+            return this.View("ScrapeCPUs", urls);
+        }
+
+        public async Task<IActionResult> ScrapeCase(string url)
+        {
+            try
+            {
+                await this.neweggCaseScraper.ScrapeCaseFromProductPageAsync(url);
             }
             catch (Exception exeption)
             {

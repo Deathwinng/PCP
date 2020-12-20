@@ -65,7 +65,7 @@
             foreach (var tableRow in ssdDataTableRows)
             {
                 var rowName = tableRow.FirstChild.TextContent.Trim();
-                var rowValue = tableRow.LastChild.TextContent.Trim();
+                var rowValue = tableRow.LastElementChild.InnerHtml.Replace("<br><br>", "{n}").Replace("<br>", "{n}").Trim();
 
                 switch (rowName)
                 {
