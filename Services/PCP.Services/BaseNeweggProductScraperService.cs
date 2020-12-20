@@ -9,6 +9,7 @@
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
     using PCP.Data.Models.Enums;
+    using PCP.Data.Models.Rating;
 
     public class BaseNeweggProductScraperService
     {
@@ -19,7 +20,7 @@
             this.configuration = Configuration.Default.WithDefaultLoader();
             this.Context = BrowsingContext.New(this.configuration);
             this.MatchOneOrMoreDigits = new Regex(@"\d+");
-            this.MatchOneOrMoreDigitsFloat = new Regex(@"\d+\.?\d?");
+            this.MatchOneOrMoreDigitsFloat = new Regex(@"\d+\.?\d*");
         }
 
         public IBrowsingContext Context { get; set; }
@@ -92,6 +93,42 @@
             }
 
             return float.Parse(match.Value, CultureInfo.InvariantCulture);
+        }
+
+        public DownloadedRating GetRatings(IDocument document, string productId = null)
+        {
+            // TODO ratings are not loaded in page source; must use Selenium
+            var ratingBars = document.QuerySelectorAll(".rating-view");
+            var ratings = new DownloadedRating
+            {
+                ProductId = productId,
+            };
+            foreach (var ratingBar in ratingBars)
+            {
+                var barNumber = ratingBar.QuerySelector(".rating-view-name").TextContent;
+                var barRatingsNumberAsString = ratingBar.QuerySelector(".rating-view-chart-num").TextContent.Replace(",", string.Empty);
+                var barRatingsNumber = int.Parse(barRatingsNumberAsString);
+                switch (barNumber)
+                {
+                    case "1 egg":
+                        ratings.OneStarVotes = barRatingsNumber;
+                        break;
+                    case "2 egg":
+                        ratings.TwoStarVotes = barRatingsNumber;
+                        break;
+                    case "3 egg":
+                        ratings.ThreeStarVotes = barRatingsNumber;
+                        break;
+                    case "4 egg":
+                        ratings.FourStarVotes = barRatingsNumber;
+                        break;
+                    case "5 egg":
+                        ratings.FiveStarVotes = barRatingsNumber;
+                        break;
+                }
+            }
+
+            return ratings;
         }
 
         public string GetImageUrl(IDocument document)

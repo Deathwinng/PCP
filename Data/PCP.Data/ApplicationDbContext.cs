@@ -13,7 +13,7 @@
     using PCP.Data.Models.Case;
     using PCP.Data.Models.CPU;
     using PCP.Data.Models.CPUCooler;
-    using PCP.Data.Models.DiskDrive;
+    using PCP.Data.Models.Drive;
     using PCP.Data.Models.GPU;
     using PCP.Data.Models.Memory;
     using PCP.Data.Models.Motherboard;
@@ -31,6 +31,8 @@
         }
 
         public DbSet<CPU> CPUs { get; set; }
+
+        public DbSet<CPUUserRating> CPUUserRatings { get; set; }
 
         public DbSet<Socket> Sockets { get; set; }
 
@@ -50,6 +52,8 @@
 
         public DbSet<Motherboard> Motherboards { get; set; }
 
+        public DbSet<MotherboardUserRating> MotherboardUserRatings { get; set; }
+
         public DbSet<MotherboardMemoryType> MotherboardMemoryTypes { get; set; }
 
         public DbSet<MothrboardChipset> MothrboardChipset { get; set; }
@@ -61,6 +65,8 @@
         public DbSet<FormFactor> FormFactors { get; set; }
 
         public DbSet<GPU> GPUs { get; set; }
+
+        public DbSet<GPUUserRating> GPUUserRatings { get; set; }
 
         public DbSet<GPUChipset> GPUChipsets { get; set; }
 
@@ -74,15 +80,23 @@
 
         public DbSet<Memory> Memories { get; set; }
 
+        public DbSet<MemoryUserRating> MemoryUserRatings { get; set; }
+
         public DbSet<HDD> HDDs { get; set; }
 
+        public DbSet<HDDUserRating> HDDUserRatings { get; set; }
+
         public DbSet<SSD> SSDs { get; set; }
+
+        public DbSet<SSDUserRating> SSDUserRatings { get; set; }
 
         public DbSet<MemoryComponent> MemoryComponents { get; set; }
 
         public DbSet<DiskForUsage> Usages { get; set; }
 
         public DbSet<CPUAirCooler> CPUAirCoolers { get; set; }
+
+        public DbSet<CPUAirCoolerUserRating> CPUAirCoolerUserRatings { get; set; }
 
         public DbSet<CoolerType> CoolerTypes { get; set; }
 
@@ -93,6 +107,8 @@
         public DbSet<CoolerLEDType> CoolerLEDTypes { get; set; }
 
         public DbSet<Case> Cases { get; set; }
+
+        public DbSet<CaseUserRating> CaseUserRatings { get; set; }
 
         public DbSet<CaseFormFactor> CaseFormFactors { get; set; }
 

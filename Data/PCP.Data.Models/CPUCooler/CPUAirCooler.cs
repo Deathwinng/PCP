@@ -9,7 +9,10 @@
         public CPUAirCooler()
         {
             this.Sockets = new HashSet<CPUAirCoolerSocket>();
+            this.UserRatings = new HashSet<CPUAirCoolerUserRating>();
         }
+
+        public ICollection<CPUAirCoolerUserRating> UserRatings { get; set; }
 
         public int? CoolerTypeId { get; set; }
 

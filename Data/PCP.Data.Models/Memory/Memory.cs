@@ -1,7 +1,16 @@
 ﻿namespace PCP.Data.Models.Memory
 {
+    using System.Collections.Generic;
+
     public class Memory : BaseProduct
     {
+        public Memory()
+        {
+            this.UserRatings = new HashSet<MemoryUserRating>();
+        }
+
+        public ICollection<MemoryUserRating> UserRatings { get; set; }
+
         public byte? NumberOfModules { get; set; }
 
         public int? CapacityPerModule { get; set; }

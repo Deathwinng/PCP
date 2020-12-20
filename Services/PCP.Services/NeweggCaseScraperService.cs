@@ -65,7 +65,9 @@
                 Price = this.GetPrice(document),
                 ImageUrl = this.GetImageUrl(document),
                 Category = this.GetCategoryFromUrl(productUrl),
+                DownloadedRating = this.GetRatings(document),
             };
+            casePc.DownloadedRating.ProductId = casePc.Id;
 
             this.logger.LogInformation(productUrl);
 
@@ -275,9 +277,9 @@
                         var dimensionsMatches = this.MatchOneOrMoreDigitsFloat.Matches(dimensions);
                         if (dimensionsMatches.Count >= 3)
                         {
-                            casePc.Height = this.MatchAndParseFloat(dimensionsMatches[0].Value);
-                            casePc.Width = this.MatchAndParseFloat(dimensionsMatches[1].Value);
-                            casePc.Depth = this.MatchAndParseFloat(dimensionsMatches[2].Value);
+                            casePc.Height = this.MatchAndParseFloat(dimensionsMatches[0].Value) * 2.54F;
+                            casePc.Width = this.MatchAndParseFloat(dimensionsMatches[1].Value) * 2.54F;
+                            casePc.Depth = this.MatchAndParseFloat(dimensionsMatches[2].Value) * 2.54F;
                         }
 
                         break;

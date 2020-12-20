@@ -1,7 +1,16 @@
-﻿namespace PCP.Data.Models.DiskDrive
+﻿using System.Collections.Generic;
+
+namespace PCP.Data.Models.Drive
 {
     public class SSD : BaseDrive
     {
+        public SSD()
+        {
+            this.UserRatings = new HashSet<SSDUserRating>();
+        }
+
+        public ICollection<SSDUserRating> UserRatings { get; set; }
+
         public int? MemoryComponentId { get; set; }
 
         public MemoryComponent MemoryComponent { get; set; }

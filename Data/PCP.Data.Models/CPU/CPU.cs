@@ -1,14 +1,22 @@
 ﻿namespace PCP.Data.Models.CPU
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using PCP.Data.Models;
 
     public class CPU : BaseProduct
     {
+        public CPU()
+        {
+            this.UserRatings = new HashSet<CPUUserRating>();
+        }
+
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+
+        public ICollection<CPUUserRating> UserRatings { get; set; }
 
         public int? SocketId { get; set; }
 

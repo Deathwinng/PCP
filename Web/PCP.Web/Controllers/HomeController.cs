@@ -3,16 +3,12 @@
     using System.Diagnostics;
 
     using Microsoft.AspNetCore.Mvc;
-    using PCP.Services;
     using PCP.Web.ViewModels;
 
     public class HomeController : BaseController
     {
-        private readonly INeweggUrlScraperService neweggScraper;
-
-        public HomeController(INeweggUrlScraperService neweggScraper)
+        public HomeController()
         {
-            this.neweggScraper = neweggScraper;
         }
 
         public IActionResult Index()

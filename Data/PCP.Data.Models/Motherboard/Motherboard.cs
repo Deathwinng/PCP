@@ -7,7 +7,10 @@
         public Motherboard()
         {
             this.MotherboardMemoryType = new HashSet<MotherboardMemoryType>();
+            this.UserRatings = new HashSet<MotherboardUserRating>();
         }
+
+        public ICollection<MotherboardUserRating> UserRatings { get; set; }
 
         public int? SocketId { get; set; }
 

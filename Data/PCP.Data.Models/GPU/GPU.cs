@@ -7,7 +7,10 @@
         public GPU()
         {
             this.GPUPorts = new HashSet<GPUPort>();
+            this.UserRatings = new HashSet<GPUUserRating>();
         }
+
+        public ICollection<GPUUserRating> UserRatings { get; set; }
 
         public int? GPUInterfaceId { get; set; }
 

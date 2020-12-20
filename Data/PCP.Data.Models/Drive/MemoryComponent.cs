@@ -1,4 +1,4 @@
-﻿namespace PCP.Data.Models.DiskDrive
+﻿namespace PCP.Data.Models.Drive
 {
     using PCP.Data.Common.Models;
 

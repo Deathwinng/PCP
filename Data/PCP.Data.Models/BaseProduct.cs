@@ -1,9 +1,11 @@
 ﻿namespace PCP.Data.Models
 {
     using System;
-
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using PCP.Data.Common.Models;
     using PCP.Data.Models.Enums;
+    using PCP.Data.Models.Rating;
 
     public class BaseProduct : BaseDeletableModel<string>
     {
@@ -12,9 +14,14 @@
             this.Id = Guid.NewGuid().ToString();
         }
 
+        [Required]
         public string Model { get; set; }
 
         public float? Price { get; set; }
+
+        public int? DownloadedRatingId { get; set; }
+
+        public DownloadedRating DownloadedRating { get; set; }
 
         public string ImageUrl { get; set; }
 

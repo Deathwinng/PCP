@@ -8,7 +8,7 @@
     using Microsoft.Extensions.Logging;
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
-    using PCP.Data.Models.DiskDrive;
+    using PCP.Data.Models.Drive;
 
     public class NeweggHDDScraperService : BaseNeweggProductScraperService, INeweggHDDScraperService
     {

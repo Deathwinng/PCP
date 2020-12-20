@@ -1,4 +1,4 @@
-﻿namespace PCP.Data.Models
+﻿namespace PCP.Data.Models.Drive
 {
     public abstract class BaseDrive : BaseProduct
     {

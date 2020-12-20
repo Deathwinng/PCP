@@ -78,7 +78,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -90,7 +90,7 @@ namespace PCP.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Color",
+                name: "CaseTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -103,7 +103,24 @@ namespace PCP.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Color", x => x.Id);
+                    table.PrimaryKey("PK_CaseTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Colors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Colors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,12 +192,34 @@ namespace PCP.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DownloadedRating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OneStarVotes = table.Column<int>(type: "int", nullable: false),
+                    TwoStarVotes = table.Column<int>(type: "int", nullable: false),
+                    ThreeStarVotes = table.Column<int>(type: "int", nullable: false),
+                    FourStarVotes = table.Column<int>(type: "int", nullable: false),
+                    FiveStarVotes = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DownloadedRating", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FormFactors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -197,7 +236,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     BaseFrequency = table.Column<short>(type: "smallint", nullable: true),
                     MaxFrequency = table.Column<short>(type: "smallint", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -216,7 +255,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -250,7 +289,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -259,6 +298,23 @@ namespace PCP.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lithographies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Materials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Materials", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -301,7 +357,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -335,7 +391,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -352,7 +408,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -387,7 +443,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -404,7 +460,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -522,6 +578,79 @@ namespace PCP.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cases",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CaseTypeId = table.Column<int>(type: "int", nullable: true),
+                    ColorId = table.Column<int>(type: "int", nullable: true),
+                    HasPowerSupply = table.Column<bool>(type: "bit", nullable: true),
+                    CasePowerSupplyPosition = table.Column<int>(type: "int", nullable: false),
+                    SidePanelWindow = table.Column<bool>(type: "bit", nullable: true),
+                    DustFilters = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DriveBay2point5 = table.Column<byte>(type: "tinyint", nullable: true),
+                    DriveBay3point5 = table.Column<byte>(type: "tinyint", nullable: true),
+                    ExpansionSlots = table.Column<byte>(type: "tinyint", nullable: true),
+                    FrontPorts = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FanOptions = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RadioatorOptions = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaxGPULength = table.Column<short>(type: "smallint", nullable: true),
+                    MaxCPUCoolerHeight = table.Column<byte>(type: "tinyint", nullable: true),
+                    MaxPSULenght = table.Column<byte>(type: "tinyint", nullable: true),
+                    Height = table.Column<float>(type: "real", nullable: true),
+                    Width = table.Column<float>(type: "real", nullable: true),
+                    Depth = table.Column<float>(type: "real", nullable: true),
+                    Weight = table.Column<float>(type: "real", nullable: true),
+                    Features = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrandId = table.Column<int>(type: "int", nullable: true),
+                    SeriesId = table.Column<int>(type: "int", nullable: true),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    FirstAvailable = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cases_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cases_CaseTypes_CaseTypeId",
+                        column: x => x.CaseTypeId,
+                        principalTable: "CaseTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cases_Colors_ColorId",
+                        column: x => x.ColorId,
+                        principalTable: "Colors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cases_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cases_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CPUAirCoolers",
                 columns: table => new
                 {
@@ -544,8 +673,9 @@ namespace PCP.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     SeriesId = table.Column<int>(type: "int", nullable: true),
@@ -562,9 +692,9 @@ namespace PCP.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CPUAirCoolers_Color_ColorId",
+                        name: "FK_CPUAirCoolers_Colors_ColorId",
                         column: x => x.ColorId,
-                        principalTable: "Color",
+                        principalTable: "Colors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -583,6 +713,12 @@ namespace PCP.Data.Migrations
                         name: "FK_CPUAirCoolers_CoolerTypes_CoolerTypeId",
                         column: x => x.CoolerTypeId,
                         principalTable: "CoolerTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CPUAirCoolers_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -643,8 +779,9 @@ namespace PCP.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     SeriesId = table.Column<int>(type: "int", nullable: true),
@@ -658,6 +795,12 @@ namespace PCP.Data.Migrations
                         name: "FK_Memories_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Memories_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -710,8 +853,9 @@ namespace PCP.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     SeriesId = table.Column<int>(type: "int", nullable: true),
@@ -731,6 +875,12 @@ namespace PCP.Data.Migrations
                         name: "FK_CPUs_CoreNames_CoreNameId",
                         column: x => x.CoreNameId,
                         principalTable: "CoreNames",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CPUs_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -798,8 +948,9 @@ namespace PCP.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     SeriesId = table.Column<int>(type: "int", nullable: true),
@@ -819,6 +970,12 @@ namespace PCP.Data.Migrations
                         name: "FK_Motherboards_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Motherboards_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -863,8 +1020,9 @@ namespace PCP.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     SeriesId = table.Column<int>(type: "int", nullable: true),
@@ -887,6 +1045,12 @@ namespace PCP.Data.Migrations
                         name: "FK_HDDs_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_HDDs_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -932,8 +1096,9 @@ namespace PCP.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     SeriesId = table.Column<int>(type: "int", nullable: true),
@@ -956,6 +1121,12 @@ namespace PCP.Data.Migrations
                         name: "FK_SSDs_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SSDs_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -991,6 +1162,97 @@ namespace PCP.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CaseFormFactors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CaseId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FormFactorId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseFormFactors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CaseFormFactors_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CaseFormFactors_FormFactors_FormFactorId",
+                        column: x => x.FormFactorId,
+                        principalTable: "FormFactors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CaseMaterials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CaseId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseMaterials", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CaseMaterials_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CaseMaterials_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CaseUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CaseId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CaseUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CaseUserRatings_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CPUAirCoolerSockets",
                 columns: table => new
                 {
@@ -1021,6 +1283,38 @@ namespace PCP.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CPUAirCoolerUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CPUCoolerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CPUAirCoolerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CPUAirCoolerUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CPUAirCoolerUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CPUAirCoolerUserRatings_CPUAirCoolers_CPUAirCoolerId",
+                        column: x => x.CPUAirCoolerId,
+                        principalTable: "CPUAirCoolers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GPUChipsets",
                 columns: table => new
                 {
@@ -1041,6 +1335,68 @@ namespace PCP.Data.Migrations
                         name: "FK_GPUChipsets_GPUCores_GPUCoreId",
                         column: x => x.GPUCoreId,
                         principalTable: "GPUCores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MemoryUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MemoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemoryUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MemoryUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MemoryUserRatings_Memories_MemoryId",
+                        column: x => x.MemoryId,
+                        principalTable: "Memories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CPUUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CPUId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CPUUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CPUUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CPUUserRatings_CPUs_CPUId",
+                        column: x => x.CPUId,
+                        principalTable: "CPUs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1083,6 +1439,99 @@ namespace PCP.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MotherboardUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MotherboardId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MotherboardUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MotherboardUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MotherboardUserRatings_Motherboards_MotherboardId",
+                        column: x => x.MotherboardId,
+                        principalTable: "Motherboards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HDDUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HDDId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HDDUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HDDUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_HDDUserRatings_HDDs_HDDId",
+                        column: x => x.HDDId,
+                        principalTable: "HDDs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SSDUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SSDId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SSDUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SSDUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SSDUserRatings_SSDs_SSDId",
+                        column: x => x.SSDId,
+                        principalTable: "SSDs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GPUs",
                 columns: table => new
                 {
@@ -1104,8 +1553,9 @@ namespace PCP.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: true),
+                    DownloadedRatingId = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     SeriesId = table.Column<int>(type: "int", nullable: true),
@@ -1119,6 +1569,12 @@ namespace PCP.Data.Migrations
                         name: "FK_GPUs_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUs_DownloadedRating_DownloadedRatingId",
+                        column: x => x.DownloadedRatingId,
+                        principalTable: "DownloadedRating",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1175,6 +1631,37 @@ namespace PCP.Data.Migrations
                         name: "FK_GPUPorts_Ports_PortId",
                         column: x => x.PortId,
                         principalTable: "Ports",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GPUUserRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GPUId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rating = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPUUserRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GPUUserRatings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPUUserRatings_GPUs_GPUId",
+                        column: x => x.GPUId,
+                        principalTable: "GPUs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1239,8 +1726,88 @@ namespace PCP.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Color_IsDeleted",
-                table: "Color",
+                name: "IX_CaseFormFactors_CaseId",
+                table: "CaseFormFactors",
+                column: "CaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseFormFactors_FormFactorId",
+                table: "CaseFormFactors",
+                column: "FormFactorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseFormFactors_IsDeleted",
+                table: "CaseFormFactors",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseMaterials_CaseId",
+                table: "CaseMaterials",
+                column: "CaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseMaterials_IsDeleted",
+                table: "CaseMaterials",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseMaterials_MaterialId",
+                table: "CaseMaterials",
+                column: "MaterialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_BrandId",
+                table: "Cases",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_CaseTypeId",
+                table: "Cases",
+                column: "CaseTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_ColorId",
+                table: "Cases",
+                column: "ColorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_DownloadedRatingId",
+                table: "Cases",
+                column: "DownloadedRatingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_IsDeleted",
+                table: "Cases",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_SeriesId",
+                table: "Cases",
+                column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseTypes_IsDeleted",
+                table: "CaseTypes",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseUserRatings_CaseId",
+                table: "CaseUserRatings",
+                column: "CaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseUserRatings_IsDeleted",
+                table: "CaseUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseUserRatings_UserId",
+                table: "CaseUserRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Colors_IsDeleted",
+                table: "Colors",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
@@ -1289,6 +1856,11 @@ namespace PCP.Data.Migrations
                 column: "CoolerTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CPUAirCoolers_DownloadedRatingId",
+                table: "CPUAirCoolers",
+                column: "DownloadedRatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CPUAirCoolers_IsDeleted",
                 table: "CPUAirCoolers",
                 column: "IsDeleted");
@@ -1314,6 +1886,21 @@ namespace PCP.Data.Migrations
                 column: "SocketId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CPUAirCoolerUserRatings_CPUAirCoolerId",
+                table: "CPUAirCoolerUserRatings",
+                column: "CPUAirCoolerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CPUAirCoolerUserRatings_IsDeleted",
+                table: "CPUAirCoolerUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CPUAirCoolerUserRatings_UserId",
+                table: "CPUAirCoolerUserRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CPUs_BrandId",
                 table: "CPUs",
                 column: "BrandId");
@@ -1322,6 +1909,11 @@ namespace PCP.Data.Migrations
                 name: "IX_CPUs_CoreNameId",
                 table: "CPUs",
                 column: "CoreNameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CPUs_DownloadedRatingId",
+                table: "CPUs",
+                column: "DownloadedRatingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CPUs_IntegratedGraphicId",
@@ -1357,6 +1949,26 @@ namespace PCP.Data.Migrations
                 name: "IX_CPUs_SocketId",
                 table: "CPUs",
                 column: "SocketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CPUUserRatings_CPUId",
+                table: "CPUUserRatings",
+                column: "CPUId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CPUUserRatings_IsDeleted",
+                table: "CPUUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CPUUserRatings_UserId",
+                table: "CPUUserRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DownloadedRating_IsDeleted",
+                table: "DownloadedRating",
+                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FormFactors_IsDeleted",
@@ -1409,6 +2021,11 @@ namespace PCP.Data.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GPUs_DownloadedRatingId",
+                table: "GPUs",
+                column: "DownloadedRatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GPUs_GPUChipsetId",
                 table: "GPUs",
                 column: "GPUChipsetId");
@@ -1434,9 +2051,29 @@ namespace PCP.Data.Migrations
                 column: "SeriesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GPUUserRatings_GPUId",
+                table: "GPUUserRatings",
+                column: "GPUId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUUserRatings_IsDeleted",
+                table: "GPUUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPUUserRatings_UserId",
+                table: "GPUUserRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HDDs_BrandId",
                 table: "HDDs",
                 column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HDDs_DownloadedRatingId",
+                table: "HDDs",
+                column: "DownloadedRatingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HDDs_FormFactorId",
@@ -1464,6 +2101,21 @@ namespace PCP.Data.Migrations
                 column: "UsageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HDDUserRatings_HDDId",
+                table: "HDDUserRatings",
+                column: "HDDId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HDDUserRatings_IsDeleted",
+                table: "HDDUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HDDUserRatings_UserId",
+                table: "HDDUserRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_IntegratedGraphics_IsDeleted",
                 table: "IntegratedGraphics",
                 column: "IsDeleted");
@@ -1484,9 +2136,19 @@ namespace PCP.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Materials_IsDeleted",
+                table: "Materials",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Memories_BrandId",
                 table: "Memories",
                 column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Memories_DownloadedRatingId",
+                table: "Memories",
+                column: "DownloadedRatingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Memories_IsDeleted",
@@ -1524,6 +2186,21 @@ namespace PCP.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MemoryUserRatings_IsDeleted",
+                table: "MemoryUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemoryUserRatings_MemoryId",
+                table: "MemoryUserRatings",
+                column: "MemoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemoryUserRatings_UserId",
+                table: "MemoryUserRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MotherboardMemoryTypes_IsDeleted",
                 table: "MotherboardMemoryTypes",
                 column: "IsDeleted");
@@ -1559,6 +2236,11 @@ namespace PCP.Data.Migrations
                 column: "ChipsetId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Motherboards_DownloadedRatingId",
+                table: "Motherboards",
+                column: "DownloadedRatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Motherboards_FormFactorId",
                 table: "Motherboards",
                 column: "FormFactorId");
@@ -1582,6 +2264,21 @@ namespace PCP.Data.Migrations
                 name: "IX_Motherboards_SocketId",
                 table: "Motherboards",
                 column: "SocketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MotherboardUserRatings_IsDeleted",
+                table: "MotherboardUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MotherboardUserRatings_MotherboardId",
+                table: "MotherboardUserRatings",
+                column: "MotherboardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MotherboardUserRatings_UserId",
+                table: "MotherboardUserRatings",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MothrboardChipset_IsDeleted",
@@ -1614,6 +2311,11 @@ namespace PCP.Data.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SSDs_DownloadedRatingId",
+                table: "SSDs",
+                column: "DownloadedRatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SSDs_FormFactorId",
                 table: "SSDs",
                 column: "FormFactorId");
@@ -1644,6 +2346,21 @@ namespace PCP.Data.Migrations
                 column: "UsageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SSDUserRatings_IsDeleted",
+                table: "SSDUserRatings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SSDUserRatings_SSDId",
+                table: "SSDUserRatings",
+                column: "SSDId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SSDUserRatings_UserId",
+                table: "SSDUserRatings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Usages_IsDeleted",
                 table: "Usages",
                 column: "IsDeleted");
@@ -1667,13 +2384,67 @@ namespace PCP.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CaseFormFactors");
+
+            migrationBuilder.DropTable(
+                name: "CaseMaterials");
+
+            migrationBuilder.DropTable(
+                name: "CaseUserRatings");
+
+            migrationBuilder.DropTable(
                 name: "CPUAirCoolerSockets");
+
+            migrationBuilder.DropTable(
+                name: "CPUAirCoolerUserRatings");
+
+            migrationBuilder.DropTable(
+                name: "CPUUserRatings");
+
+            migrationBuilder.DropTable(
+                name: "GPUPorts");
+
+            migrationBuilder.DropTable(
+                name: "GPUUserRatings");
+
+            migrationBuilder.DropTable(
+                name: "HDDUserRatings");
+
+            migrationBuilder.DropTable(
+                name: "MemoryUserRatings");
+
+            migrationBuilder.DropTable(
+                name: "MotherboardMemoryTypes");
+
+            migrationBuilder.DropTable(
+                name: "MotherboardUserRatings");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
+
+            migrationBuilder.DropTable(
+                name: "SSDUserRatings");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Materials");
+
+            migrationBuilder.DropTable(
+                name: "Cases");
+
+            migrationBuilder.DropTable(
+                name: "CPUAirCoolers");
 
             migrationBuilder.DropTable(
                 name: "CPUs");
 
             migrationBuilder.DropTable(
-                name: "GPUPorts");
+                name: "Ports");
+
+            migrationBuilder.DropTable(
+                name: "GPUs");
 
             migrationBuilder.DropTable(
                 name: "HDDs");
@@ -1682,52 +2453,19 @@ namespace PCP.Data.Migrations
                 name: "Memories");
 
             migrationBuilder.DropTable(
-                name: "MotherboardMemoryTypes");
-
-            migrationBuilder.DropTable(
-                name: "Settings");
-
-            migrationBuilder.DropTable(
-                name: "SSDs");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Motherboards");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "CPUAirCoolers");
+                name: "SSDs");
 
             migrationBuilder.DropTable(
-                name: "CoreNames");
+                name: "CaseTypes");
 
             migrationBuilder.DropTable(
-                name: "IntegratedGraphics");
-
-            migrationBuilder.DropTable(
-                name: "Lithographies");
-
-            migrationBuilder.DropTable(
-                name: "GPUs");
-
-            migrationBuilder.DropTable(
-                name: "Ports");
-
-            migrationBuilder.DropTable(
-                name: "MemorySpeeds");
-
-            migrationBuilder.DropTable(
-                name: "Motherboards");
-
-            migrationBuilder.DropTable(
-                name: "MemoryComponents");
-
-            migrationBuilder.DropTable(
-                name: "Usages");
-
-            migrationBuilder.DropTable(
-                name: "Color");
+                name: "Colors");
 
             migrationBuilder.DropTable(
                 name: "CoolerBearingTypes");
@@ -1739,19 +2477,25 @@ namespace PCP.Data.Migrations
                 name: "CoolerTypes");
 
             migrationBuilder.DropTable(
+                name: "CoreNames");
+
+            migrationBuilder.DropTable(
+                name: "IntegratedGraphics");
+
+            migrationBuilder.DropTable(
+                name: "Lithographies");
+
+            migrationBuilder.DropTable(
                 name: "GPUChipsets");
 
             migrationBuilder.DropTable(
-                name: "Interfaces");
+                name: "MemorySpeeds");
 
             migrationBuilder.DropTable(
                 name: "MemoryTypes");
 
             migrationBuilder.DropTable(
                 name: "AudioChipsets");
-
-            migrationBuilder.DropTable(
-                name: "FormFactors");
 
             migrationBuilder.DropTable(
                 name: "LanChipsets");
@@ -1761,6 +2505,21 @@ namespace PCP.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sockets");
+
+            migrationBuilder.DropTable(
+                name: "DownloadedRating");
+
+            migrationBuilder.DropTable(
+                name: "FormFactors");
+
+            migrationBuilder.DropTable(
+                name: "Interfaces");
+
+            migrationBuilder.DropTable(
+                name: "MemoryComponents");
+
+            migrationBuilder.DropTable(
+                name: "Usages");
 
             migrationBuilder.DropTable(
                 name: "GPUCores");

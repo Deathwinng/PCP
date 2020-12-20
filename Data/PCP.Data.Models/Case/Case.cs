@@ -10,7 +10,10 @@
         {
             this.CaseMaterials = new HashSet<CaseMaterial>();
             this.CaseFormFactors = new HashSet<CaseFormFactor>();
+            this.UserRatings = new HashSet<CaseUserRating>();
         }
+
+        public ICollection<CaseUserRating> UserRatings { get; set; }
 
         public int? CaseTypeId { get; set; }
 
