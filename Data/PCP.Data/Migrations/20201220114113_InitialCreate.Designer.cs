@@ -10,7 +10,7 @@ using PCP.Data;
 namespace PCP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201219112535_InitialCreate")]
+    [Migration("20201220114113_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -400,6 +400,257 @@ namespace PCP.Data.Migrations
                     b.ToTable("CPUs");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CPUAirCooler", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CoolerBearingTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CoolerLEDId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CoolerTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FanDimensions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("FanSize")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Features")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FirstAvailable")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HeatsinkDimension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeatsinkMaterial")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<float?>("MaxAirFlow")
+                        .HasColumnType("real");
+
+                    b.Property<byte?>("MaxHeight")
+                        .HasColumnType("tinyint");
+
+                    b.Property<float?>("MaxNoiseLevel")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte?>("PowerConnectorPins")
+                        .HasColumnType("tinyint");
+
+                    b.Property<float?>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<short?>("RPM")
+                        .HasColumnType("smallint");
+
+                    b.Property<int?>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("CoolerBearingTypeId");
+
+                    b.HasIndex("CoolerLEDId");
+
+                    b.HasIndex("CoolerTypeId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("CPUAirCoolers");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CPUAirCoolerSocket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CPUAirCoolerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SocketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CPUAirCoolerId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("SocketId");
+
+                    b.ToTable("CPUAirCoolerSockets");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CoolerBearingType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("CoolerBearingTypes");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CoolerLEDType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("CoolerLEDTypes");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CoolerType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("CoolerTypes");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.Color", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Color");
+                });
+
             modelBuilder.Entity("PCP.Data.Models.CoreName", b =>
                 {
                     b.Property<int>("Id")
@@ -514,10 +765,42 @@ namespace PCP.Data.Migrations
                     b.ToTable("HDDs");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.DiskDrive.MemoryComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("MemoryComponents");
+                });
+
             modelBuilder.Entity("PCP.Data.Models.DiskDrive.SSD", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ActivePowerConsumption")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("int");
@@ -546,8 +829,17 @@ namespace PCP.Data.Migrations
                     b.Property<int?>("FormFactorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FourKBRandomRead")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FourKBRandomWrite")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float?>("Height")
                         .HasColumnType("real");
+
+                    b.Property<string>("IdlePowerComsumtion")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -560,6 +852,18 @@ namespace PCP.Data.Migrations
 
                     b.Property<float?>("Length")
                         .HasColumnType("real");
+
+                    b.Property<short?>("MaxSequentialReadMBps")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("MaxSequentialWriteMBps")
+                        .HasColumnType("smallint");
+
+                    b.Property<int?>("MeanTimeBetweenFailures")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MemoryComponentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
@@ -588,6 +892,8 @@ namespace PCP.Data.Migrations
                     b.HasIndex("InterfaceId");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("MemoryComponentId");
 
                     b.HasIndex("SeriesId");
 
@@ -1565,6 +1871,62 @@ namespace PCP.Data.Migrations
                     b.Navigation("Socket");
                 });
 
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CPUAirCooler", b =>
+                {
+                    b.HasOne("PCP.Data.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("PCP.Data.Models.Color", "Color")
+                        .WithMany()
+                        .HasForeignKey("ColorId");
+
+                    b.HasOne("PCP.Data.Models.CPUCooler.CoolerBearingType", "CoolerBearingType")
+                        .WithMany()
+                        .HasForeignKey("CoolerBearingTypeId");
+
+                    b.HasOne("PCP.Data.Models.CPUCooler.CoolerLEDType", "CoolerLED")
+                        .WithMany()
+                        .HasForeignKey("CoolerLEDId");
+
+                    b.HasOne("PCP.Data.Models.CPUCooler.CoolerType", "CoolerType")
+                        .WithMany()
+                        .HasForeignKey("CoolerTypeId");
+
+                    b.HasOne("PCP.Data.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Color");
+
+                    b.Navigation("CoolerBearingType");
+
+                    b.Navigation("CoolerLED");
+
+                    b.Navigation("CoolerType");
+
+                    b.Navigation("Series");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CPUAirCoolerSocket", b =>
+                {
+                    b.HasOne("PCP.Data.Models.CPUCooler.CPUAirCooler", "CPUAirCooler")
+                        .WithMany("Sockets")
+                        .HasForeignKey("CPUAirCoolerId");
+
+                    b.HasOne("PCP.Data.Models.Socket", "Socket")
+                        .WithMany()
+                        .HasForeignKey("SocketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CPUAirCooler");
+
+                    b.Navigation("Socket");
+                });
+
             modelBuilder.Entity("PCP.Data.Models.DiskDrive.HDD", b =>
                 {
                     b.HasOne("PCP.Data.Models.Brand", "Brand")
@@ -1612,6 +1974,10 @@ namespace PCP.Data.Migrations
                         .WithMany()
                         .HasForeignKey("InterfaceId");
 
+                    b.HasOne("PCP.Data.Models.DiskDrive.MemoryComponent", "MemoryComponent")
+                        .WithMany()
+                        .HasForeignKey("MemoryComponentId");
+
                     b.HasOne("PCP.Data.Models.Series", "Series")
                         .WithMany()
                         .HasForeignKey("SeriesId");
@@ -1625,6 +1991,8 @@ namespace PCP.Data.Migrations
                     b.Navigation("FormFactor");
 
                     b.Navigation("Interface");
+
+                    b.Navigation("MemoryComponent");
 
                     b.Navigation("Series");
 
@@ -1809,6 +2177,11 @@ namespace PCP.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("PCP.Data.Models.CPUCooler.CPUAirCooler", b =>
+                {
+                    b.Navigation("Sockets");
                 });
 
             modelBuilder.Entity("PCP.Data.Models.GPU.GPU", b =>

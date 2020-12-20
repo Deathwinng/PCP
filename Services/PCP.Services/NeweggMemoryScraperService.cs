@@ -11,7 +11,7 @@
     using PCP.Data.Models;
     using PCP.Data.Models.Memory;
 
-    public class NeweggMemoryScraperService : BaseNeweggProductScrapperService, INeweggMemoryScraperService
+    public class NeweggMemoryScraperService : BaseNeweggProductScraperService, INeweggMemoryScraperService
     {
         private readonly ILogger<NeweggMemoryScraperService> logger;
         private readonly IDeletableEntityRepository<Memory> memoryRepo;

@@ -10,9 +10,9 @@
     using PCP.Data.Models;
     using PCP.Data.Models.DiskDrive;
 
-    public class NeweggSSDScraperService : BaseNeweggProductScrapperService, INeweggSSDScraperService
+    public class NeweggSSDScraperService : BaseNeweggProductScraperService, INeweggSSDScraperService
     {
-        private readonly ILogger<NeweggMemoryScraperService> logger;
+        private readonly ILogger<NeweggSSDScraperService> logger;
         private readonly IDeletableEntityRepository<SSD> ssdRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
@@ -22,7 +22,7 @@
         private readonly IDeletableEntityRepository<MemoryComponent> memoryComponentRepo;
 
         public NeweggSSDScraperService(
-            ILogger<NeweggMemoryScraperService> logger,
+            ILogger<NeweggSSDScraperService> logger,
             IDeletableEntityRepository<SSD> ssdRepo,
             IDeletableEntityRepository<Brand> brandRepo,
             IDeletableEntityRepository<Series> seriesRepo,

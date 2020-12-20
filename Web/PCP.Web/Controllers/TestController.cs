@@ -18,6 +18,7 @@
         private readonly INeweggMemoryScraperService neweggMemoryScraper;
         private readonly INeweggHDDScraperService neweggHDDScraper;
         private readonly INeweggSSDScraperService neweggSSDScraper;
+        private readonly INeweggAirCPUCoolerScraperService neweggAirCPUCoolerScraper;
 
         public TestController(
             ILogger<TestController> logger,
@@ -27,7 +28,8 @@
             INeweggGPUScraperService neweggGPUScraper,
             INeweggMemoryScraperService neweggMemoryScraper,
             INeweggHDDScraperService neweggHDDScraper,
-            INeweggSSDScraperService neweggSSDScraper)
+            INeweggSSDScraperService neweggSSDScraper,
+            INeweggAirCPUCoolerScraperService neweggAirCPUCoolerScraper)
         {
             this.logger = logger;
             this.neweggUrlScraper = neweggUrlScraper;
@@ -37,6 +39,7 @@
             this.neweggMemoryScraper = neweggMemoryScraper;
             this.neweggHDDScraper = neweggHDDScraper;
             this.neweggSSDScraper = neweggSSDScraper;
+            this.neweggAirCPUCoolerScraper = neweggAirCPUCoolerScraper;
         }
 
         public async Task<IActionResult> ScrapeCPUs(string url, int pages)
@@ -252,6 +255,43 @@
             try
             {
                 await this.neweggSSDScraper.ScrapeSSDFromProductPageAsync(url);
+            }
+            catch (Exception exeption)
+            {
+                this.logger.LogWarning($"Exeption occured: {exeption.Message}.");
+            }
+
+            return this.View("ScrapeCPUs", new HashSet<string>());
+        }
+
+        public async Task<IActionResult> ScrapeCPUAirCoolers(string url, int pages)
+        {
+            var urls = this.neweggUrlScraper.GetUrlsForScrapingFromProducts(url, pages);
+            var count = urls.Count;
+            var counter = 0;
+            this.logger.LogInformation(string.Empty + count);
+            foreach (var u in urls)
+            {
+                try
+                {
+                    await this.neweggAirCPUCoolerScraper.ScrapeAirCPUCoolerFromProductPageAsync(u);
+                }
+                catch (Exception exeption)
+                {
+                    this.logger.LogWarning($"Exeption occured: {exeption.Message}.");
+                }
+
+                this.logger.LogInformation(string.Empty + (count - (++counter)));
+            }
+
+            return this.View("ScrapeCPUs", urls);
+        }
+
+        public async Task<IActionResult> ScrapeCPUAirCooler(string url)
+        {
+            try
+            {
+                await this.neweggAirCPUCoolerScraper.ScrapeAirCPUCoolerFromProductPageAsync(url);
             }
             catch (Exception exeption)
             {

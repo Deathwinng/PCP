@@ -11,6 +11,7 @@
     using PCP.Data.Common.Models;
     using PCP.Data.Models;
     using PCP.Data.Models.CPU;
+    using PCP.Data.Models.CPUCooler;
     using PCP.Data.Models.DiskDrive;
     using PCP.Data.Models.GPU;
     using PCP.Data.Models.Memory;
@@ -79,6 +80,16 @@
         public DbSet<MemoryComponent> MemoryComponents { get; set; }
 
         public DbSet<DiskForUsage> Usages { get; set; }
+
+        public DbSet<CPUAirCooler> CPUAirCoolers { get; set; }
+
+        public DbSet<CoolerType> CoolerTypes { get; set; }
+
+        public DbSet<CPUAirCoolerSocket> CPUAirCoolerSockets { get; set; }
+
+        public DbSet<CoolerBearingType> CoolerBearingTypes { get; set; }
+
+        public DbSet<CoolerLEDType> CoolerLEDTypes { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

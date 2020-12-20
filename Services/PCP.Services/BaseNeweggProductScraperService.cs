@@ -6,16 +6,15 @@
 
     using AngleSharp;
     using AngleSharp.Dom;
-    using PCP.Data.Common.Models;
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
     using PCP.Data.Models.Enums;
 
-    public class BaseNeweggProductScrapperService
+    public class BaseNeweggProductScraperService
     {
         private readonly IConfiguration configuration;
 
-        public BaseNeweggProductScrapperService()
+        public BaseNeweggProductScraperService()
         {
             this.configuration = Configuration.Default.WithDefaultLoader();
             this.Context = BrowsingContext.New(this.configuration);
@@ -113,7 +112,7 @@
         public float? GetPrice(IDocument document)
         {
             var priceAsString = document.QuerySelectorAll(".product-pane .product-price .price .price-current")
-                .LastOrDefault()?.TextContent.Replace("$", string.Empty).Replace(",", string.Empty);
+                .LastOrDefault()?.TextContent.Replace(",", string.Empty).Replace("$", string.Empty);
             float.TryParse(priceAsString, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out float price);
             return price;
         }

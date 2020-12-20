@@ -6,12 +6,11 @@
 
     using AngleSharp;
     using Microsoft.Extensions.Logging;
-    using PCP.Data.Common.Models;
     using PCP.Data.Common.Repositories;
     using PCP.Data.Models;
     using PCP.Data.Models.DiskDrive;
 
-    public class NeweggHDDScraperService : BaseNeweggProductScrapperService, INeweggHDDScraperService
+    public class NeweggHDDScraperService : BaseNeweggProductScraperService, INeweggHDDScraperService
     {
         private readonly ILogger<NeweggMemoryScraperService> logger;
         private readonly IDeletableEntityRepository<HDD> hddRepo;

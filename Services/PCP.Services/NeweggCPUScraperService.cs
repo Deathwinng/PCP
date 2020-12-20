@@ -14,7 +14,7 @@
     using PCP.Data.Models.CPU;
     using PCP.Data.Models.Enums;
 
-    public class NeweggCPUScraperService : BaseNeweggProductScrapperService, INeweggCPUScraperService
+    public class NeweggCPUScraperService : BaseNeweggProductScraperService, INeweggCPUScraperService
     {
         private readonly ILogger<NeweggCPUScraperService> logger;
         private readonly IDeletableEntityRepository<CPU> cpuRepo;
