@@ -1,9 +1,6 @@
 ﻿namespace PCP.Services
 {
-    using System.Threading.Tasks;
-
-    public interface INeweggMotherboardScraperService
+    public interface INeweggMotherboardScraperService : INeweggScraperService
     {
-        Task ScrapeMotherboardFromProductPageAsync(string productUrl);
     }
 }

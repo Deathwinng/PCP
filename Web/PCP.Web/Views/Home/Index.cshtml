@@ -1,9 +1,61 @@
 ﻿@using PCP.Common
+@using System.Globalization
+@model PCP.Web.ViewModels.Home.IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div class="row">
+    @foreach (var cpu in Model.RandomProducts.CPUs)
+    {
+        <div class="card m-1 col-md">
+            <img src="@cpu.ImageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@cpu.BrandName @cpu.Name</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">$@cpu.Price.ToString("F2", CultureInfo.InvariantCulture)</li>
+            </ul>
+            <div class="card-body align-self-md-center">
+                <a asp-controller="CPUs" asp-action="ById" asp-route-id="@cpu.Id" class="card-link btn btn-primary">Show Product</a>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    @foreach (var motherboard in Model.RandomProducts.Motherboards)
+    {
+        <div class="card m-1 col-md">
+            <img src="@motherboard.ImageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@motherboard.BrandName @motherboard.SeriesName @motherboard.Model</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">$@motherboard.Price.ToString("F2", CultureInfo.InvariantCulture)</li>
+            </ul>
+            <div class="card-body align-self-md-center">
+                <a asp-action="" class="card-link btn btn-primary">Show Product</a>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    @foreach (var gpu in Model.RandomProducts.GPUs)
+    {
+        <div class="card m-1 col-md">
+            <img src="@gpu.ImageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@gpu.BrandName @gpu.SeriesName @gpu.Model</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">$@gpu.Price.ToString("F2", CultureInfo.InvariantCulture)</li>
+            </ul>
+            <div class="card-body align-self-md-center">
+                <a asp-action="" class="card-link btn btn-primary">Show Product</a>
+            </div>
+        </div>
+    }
 </div>

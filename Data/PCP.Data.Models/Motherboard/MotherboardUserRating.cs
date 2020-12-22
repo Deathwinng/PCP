@@ -6,6 +6,6 @@
     {
         public string MotherboardId { get; set; }
 
-        public Motherboard Motherboard { get; set; }
+        public virtual Motherboard Motherboard { get; set; }
     }
 }

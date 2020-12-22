@@ -6,6 +6,6 @@
     {
         public string HDDId { get; set; }
 
-        public HDD HDD { get; set; }
+        public virtual HDD HDD { get; set; }
     }
 }

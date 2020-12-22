@@ -71,8 +71,11 @@
             services.AddTransient<INeweggMemoryScraperService, NeweggMemoryScraperService>();
             services.AddTransient<INeweggHDDScraperService, NeweggHDDScraperService>();
             services.AddTransient<INeweggSSDScraperService, NeweggSSDScraperService>();
-            services.AddTransient<INeweggAirCPUCoolerScraperService, NeweggAirCPUCoolerScraperService>();
+            services.AddTransient<INeweggCPUAirCoolerScraperService, NeweggCPUAirCoolerScraperService>();
             services.AddTransient<INeweggCaseScraperService, NeweggCaseScraperService>();
+            services.AddTransient<ICPUService, CPUService>();
+            services.AddTransient<IMotherboardService, MotherboardService>();
+            services.AddTransient<IGPUService, GPUService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

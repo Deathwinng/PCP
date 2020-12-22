@@ -37,12 +37,13 @@
             this.memorySpeedRepo = memorySpeedRepo;
         }
 
-        public async Task ScrapeMemoryFromProductPageAsync(string productUrl)
+        public async Task<string> ScrapeFromProductPageAsync(string productUrl)
         {
             if (productUrl.Contains("Combo"))
             {
-                this.logger.LogWarning("Invalid Product.");
-                return;
+                var message = "Invalid Product.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             var document = await this.Context.OpenAsync(productUrl);
@@ -67,8 +68,9 @@
                     case "Model":
                         if (this.memoryRepo.AllAsNoTracking().Any(x => x.Model == rowValue))
                         {
-                            this.logger.LogWarning("Already exists.");
-                            return;
+                            var message = "Already exists.";
+                            this.logger.LogWarning(message);
+                            return message;
                         }
 
                         memory.Model = rowValue;
@@ -198,13 +200,16 @@
 
             if (memory.Model == null)
             {
-                this.logger.LogWarning("Invalid Model.");
-                return;
+                var message = "Invalid Model.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             await this.memoryRepo.AddAsync(memory);
             await this.memoryRepo.SaveChangesAsync();
-            this.logger.LogInformation($"Successfully added {memory.Model}.");
+            var successMessage = $"Successfully added {memory.Model}.";
+            this.logger.LogInformation(successMessage);
+            return successMessage;
         }
     }
 }

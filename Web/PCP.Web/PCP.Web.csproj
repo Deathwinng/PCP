@@ -36,4 +36,8 @@
     <ProjectReference Include="..\PCP.Web.Infrastructure\PCP.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\PCP.Web.ViewModels\PCP.Web.ViewModels.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="node_modules/**" />
+  </ItemGroup>
 </Project>

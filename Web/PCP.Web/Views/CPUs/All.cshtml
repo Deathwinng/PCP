@@ -1,0 +1,21 @@
+﻿@model PCP.Web.ViewModels.CPUs.CPUsViewModel
+@using System.Globalization
+
+<div class="row">
+    @foreach (var cpu in Model.CPUs)
+    {
+        <div class="card col-md-3 col-sm-4 mb-2">
+            <img src="@cpu.ImageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"> @cpu.BrandName @cpu.Name </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">$@cpu.Price.ToString("F2", CultureInfo.InvariantCulture) </li>
+            </ul>
+            <div class="card-body align-self-md-center">
+                <a asp-controller="CPUs" asp-action="ById" asp-route-id="@cpu.Id" class="card-link btn btn-primary">Show Product</a>
+            </div>
+        </div>
+    }
+</div>
+<partial name="_PagingPartial" model="@Model.PagingViewModel" />

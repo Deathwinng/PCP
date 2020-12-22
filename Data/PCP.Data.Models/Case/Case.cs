@@ -13,23 +13,23 @@
             this.UserRatings = new HashSet<CaseUserRating>();
         }
 
-        public ICollection<CaseUserRating> UserRatings { get; set; }
+        public virtual ICollection<CaseUserRating> UserRatings { get; set; }
 
         public int? CaseTypeId { get; set; }
 
-        public CaseType CaseType { get; set; }
+        public virtual CaseType CaseType { get; set; }
 
         public int? ColorId { get; set; }
 
-        public Color Color { get; set; }
+        public virtual Color Color { get; set; }
 
-        public ICollection<CaseMaterial> CaseMaterials { get; set; }
+        public virtual ICollection<CaseMaterial> CaseMaterials { get; set; }
 
         public bool? HasPowerSupply { get; set; }
 
-        public CasePowerSupplyPosition CasePowerSupplyPosition { get; set; }
+        public virtual CasePowerSupplyPosition CasePowerSupplyPosition { get; set; }
 
-        public ICollection<CaseFormFactor> CaseFormFactors { get; set; }
+        public virtual ICollection<CaseFormFactor> CaseFormFactors { get; set; }
 
         public bool? SidePanelWindow { get; set; }
 
@@ -49,9 +49,9 @@
 
         public short? MaxGPULength { get; set; }
 
-        public byte? MaxCPUCoolerHeight { get; set; }
+        public short? MaxCPUCoolerHeight { get; set; }
 
-        public byte? MaxPSULenght { get; set; }
+        public short? MaxPSULenght { get; set; }
 
         public float? Height { get; set; }
 

@@ -11,9 +11,9 @@
     using PCP.Data.Models;
     using PCP.Data.Models.CPUCooler;
 
-    public class NeweggAirCPUCoolerScraperService : BaseNeweggProductScraperService, INeweggAirCPUCoolerScraperService
+    public class NeweggCPUAirCoolerScraperService : BaseNeweggProductScraperService, INeweggCPUAirCoolerScraperService
     {
-        private readonly ILogger<NeweggAirCPUCoolerScraperService> logger;
+        private readonly ILogger<NeweggCPUAirCoolerScraperService> logger;
         private readonly IDeletableEntityRepository<CPUAirCooler> coolerRepo;
         private readonly IDeletableEntityRepository<Brand> brandRepo;
         private readonly IDeletableEntityRepository<Series> seriesRepo;
@@ -23,9 +23,10 @@
         private readonly IDeletableEntityRepository<CoolerBearingType> bearingTypeRepo;
         private readonly IDeletableEntityRepository<CoolerLEDType> ledTypeRepo;
         private readonly IDeletableEntityRepository<Color> colorRepo;
+        private readonly IDeletableEntityRepository<Material> materialRepo;
 
-        public NeweggAirCPUCoolerScraperService(
-            ILogger<NeweggAirCPUCoolerScraperService> logger,
+        public NeweggCPUAirCoolerScraperService(
+            ILogger<NeweggCPUAirCoolerScraperService> logger,
             IDeletableEntityRepository<CPUAirCooler> coolerRepo,
             IDeletableEntityRepository<Brand> brandRepo,
             IDeletableEntityRepository<Series> seriesRepo,
@@ -34,7 +35,8 @@
             IDeletableEntityRepository<CPUAirCoolerSocket> coolerSocketRepo,
             IDeletableEntityRepository<CoolerBearingType> bearingTypeRepo,
             IDeletableEntityRepository<CoolerLEDType> ledTypeRepo,
-            IDeletableEntityRepository<Color> colorRepo)
+            IDeletableEntityRepository<Color> colorRepo,
+            IDeletableEntityRepository<Material> materialRepo)
             : base()
         {
             this.logger = logger;
@@ -47,14 +49,16 @@
             this.bearingTypeRepo = bearingTypeRepo;
             this.ledTypeRepo = ledTypeRepo;
             this.colorRepo = colorRepo;
+            this.materialRepo = materialRepo;
         }
 
-        public async Task ScrapeAirCPUCoolerFromProductPageAsync(string productUrl)
+        public async Task<string> ScrapeFromProductPageAsync(string productUrl)
         {
             if (productUrl.Contains("Combo"))
             {
-                this.logger.LogWarning("Invalid Product.");
-                return;
+                var message = "Invalid Product.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             var document = await this.Context.OpenAsync(productUrl);
@@ -79,8 +83,9 @@
                     case "Model":
                         if (this.coolerRepo.AllAsNoTracking().Any(x => x.Model == rowValue))
                         {
-                            this.logger.LogWarning("Already exists.");
-                            return;
+                            var message = "Already exists.";
+                            this.logger.LogWarning(message);
+                            return message;
                         }
 
                         cooler.Model = rowValue;
@@ -113,7 +118,16 @@
                         cooler.FanSize = short.Parse(sizeMatch.Value);
                         break;
                     case "CPU Socket Compatibility":
-                        var socketsParts = new Regex(@"(?:Intel)|(?:AMD)|(?:LGA)|(?:Socket)").Replace(rowValue, "/").Split("/", StringSplitOptions.RemoveEmptyEntries);
+                        if (rowValue.ToLower().Contains("core"))
+                        {
+                            continue;
+                        }
+
+                        var socketsParts = new Regex(@"(?:Intel)|(?:AMD)|(?:LGA)|(?:Socket)|(?:and)")
+                            .Replace(rowValue, "/")
+                            .Replace("{n}", "/")
+                            .Replace(":", string.Empty)
+                            .Split(new char[] { '/', ',' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (var socketPart in socketsParts)
                         {
                             if (string.IsNullOrWhiteSpace(socketPart))
@@ -203,7 +217,16 @@
                         cooler.CoolerLED = led;
                         break;
                     case "Heatsink Material":
-                        cooler.HeatsinkMaterial = rowValue;
+                        var heatsinkMaterial = this.materialRepo.All().FirstOrDefault(x => x.Name == rowValue);
+                        if (heatsinkMaterial == null)
+                        {
+                            heatsinkMaterial = new Material
+                            {
+                                Name = rowValue,
+                            };
+                        }
+
+                        cooler.HeatsinkMaterial = heatsinkMaterial;
                         break;
                     case "Max CPU Cooler Height":
                         var maxHeightMatch = this.MatchOneOrMoreDigits.Match(rowValue);
@@ -231,13 +254,16 @@
 
             if (cooler.Model == null)
             {
-                this.logger.LogWarning("Invalid Model.");
-                return;
+                var message = "Invalid Model.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             await this.coolerRepo.AddAsync(cooler);
             await this.coolerRepo.SaveChangesAsync();
-            this.logger.LogInformation($"Successfully added {cooler.Model}.");
+            var successMessage = $"Successfully added {cooler.Model}.";
+            this.logger.LogInformation(successMessage);
+            return successMessage;
         }
 
         // private T GetMaxValueOfMatches<T>(string stringToMatch)

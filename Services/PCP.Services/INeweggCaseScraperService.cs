@@ -1,9 +1,6 @@
 ﻿namespace PCP.Services
 {
-    using System.Threading.Tasks;
-
-    public interface INeweggCaseScraperService
+    public interface INeweggCaseScraperService : INeweggScraperService
     {
-        Task ScrapeCaseFromProductPageAsync(string productUrl);
     }
 }

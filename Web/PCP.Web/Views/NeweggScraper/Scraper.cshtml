@@ -1,0 +1,24 @@
+﻿@model PCP.Web.ViewModels.Scraper.ScraperViewModel
+@{
+}
+
+<h2>Messages: @Model.NumberOfSuccessfullyAdded</h2>
+<h2>Errors: @Model.NumberOfErrors</h2>
+<br />
+<h2>Messages:</h2>
+<ul>
+    @{
+        var counter = 0;
+    }
+    @foreach (var message in @Model.Messages)
+    {
+        <li>
+            <a href="@message.Url">@message.Message</a>
+            @if (message.InnerExeption != null)
+            {
+                <div id="inner-exeption-@counter">@message.InnerExeption</div>
+            }
+            <br />
+        </li>
+    }
+</ul>

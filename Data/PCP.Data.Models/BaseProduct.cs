@@ -1,8 +1,8 @@
 ﻿namespace PCP.Data.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using PCP.Data.Common.Models;
     using PCP.Data.Models.Enums;
     using PCP.Data.Models.Rating;

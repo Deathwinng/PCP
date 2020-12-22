@@ -255,7 +255,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -306,7 +306,7 @@ namespace PCP.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -595,8 +595,8 @@ namespace PCP.Data.Migrations
                     FanOptions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RadioatorOptions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MaxGPULength = table.Column<short>(type: "smallint", nullable: true),
-                    MaxCPUCoolerHeight = table.Column<byte>(type: "tinyint", nullable: true),
-                    MaxPSULenght = table.Column<byte>(type: "tinyint", nullable: true),
+                    MaxCPUCoolerHeight = table.Column<short>(type: "smallint", nullable: true),
+                    MaxPSULenght = table.Column<short>(type: "smallint", nullable: true),
                     Height = table.Column<float>(type: "real", nullable: true),
                     Width = table.Column<float>(type: "real", nullable: true),
                     Depth = table.Column<float>(type: "real", nullable: true),
@@ -664,7 +664,7 @@ namespace PCP.Data.Migrations
                     PowerConnectorPins = table.Column<byte>(type: "tinyint", nullable: true),
                     ColorId = table.Column<int>(type: "int", nullable: true),
                     CoolerLEDId = table.Column<int>(type: "int", nullable: true),
-                    HeatsinkMaterial = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HeatsinkMaterialId = table.Column<int>(type: "int", nullable: true),
                     MaxHeight = table.Column<byte>(type: "tinyint", nullable: true),
                     FanDimensions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HeatsinkDimension = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -719,6 +719,12 @@ namespace PCP.Data.Migrations
                         name: "FK_CPUAirCoolers_DownloadedRating_DownloadedRatingId",
                         column: x => x.DownloadedRatingId,
                         principalTable: "DownloadedRating",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CPUAirCoolers_Materials_HeatsinkMaterialId",
+                        column: x => x.HeatsinkMaterialId,
+                        principalTable: "Materials",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1861,6 +1867,11 @@ namespace PCP.Data.Migrations
                 column: "DownloadedRatingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CPUAirCoolers_HeatsinkMaterialId",
+                table: "CPUAirCoolers",
+                column: "HeatsinkMaterialId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CPUAirCoolers_IsDeleted",
                 table: "CPUAirCoolers",
                 column: "IsDeleted");
@@ -2429,9 +2440,6 @@ namespace PCP.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Materials");
-
-            migrationBuilder.DropTable(
                 name: "Cases");
 
             migrationBuilder.DropTable(
@@ -2475,6 +2483,9 @@ namespace PCP.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CoolerTypes");
+
+            migrationBuilder.DropTable(
+                name: "Materials");
 
             migrationBuilder.DropTable(
                 name: "CoreNames");

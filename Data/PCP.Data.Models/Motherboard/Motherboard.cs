@@ -10,19 +10,19 @@
             this.UserRatings = new HashSet<MotherboardUserRating>();
         }
 
-        public ICollection<MotherboardUserRating> UserRatings { get; set; }
+        public virtual ICollection<MotherboardUserRating> UserRatings { get; set; }
 
         public int? SocketId { get; set; }
 
-        public Socket Socket { get; set; }
+        public virtual Socket Socket { get; set; }
 
         public int? ChipsetId { get; set; }
 
-        public MothrboardChipset Chipset { get; set; }
+        public virtual MothrboardChipset Chipset { get; set; }
 
         public int? MemorySlots { get; set; }
 
-        public ICollection<MotherboardMemoryType> MotherboardMemoryType { get; set; }
+        public virtual ICollection<MotherboardMemoryType> MotherboardMemoryType { get; set; }
 
         public int? MaxMemorySupport { get; set; }
 
@@ -42,17 +42,17 @@
 
         public int? AudioChipsetId { get; set; }
 
-        public AudioChipset AudioChipset { get; set; }
+        public virtual AudioChipset AudioChipset { get; set; }
 
         public int? LanChipsetId { get; set; }
 
-        public LanChipset LanChipset { get; set; }
+        public virtual LanChipset LanChipset { get; set; }
 
         public string RearPanelPorts { get; set; }
 
         public int? FormFactorId { get; set; }
 
-        public FormFactor FormFactor { get; set; }
+        public virtual FormFactor FormFactor { get; set; }
 
         public float? Width { get; set; }
 

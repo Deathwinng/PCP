@@ -16,15 +16,15 @@
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public ICollection<CPUUserRating> UserRatings { get; set; }
+        public virtual ICollection<CPUUserRating> UserRatings { get; set; }
 
         public int? SocketId { get; set; }
 
-        public Socket Socket { get; set; }
+        public virtual Socket Socket { get; set; }
 
         public int? CoreNameId { get; set; }
 
-        public CoreName CoreName { get; set; }
+        public virtual CoreName CoreName { get; set; }
 
         public byte? Cores { get; set; }
 
@@ -42,7 +42,7 @@
 
         public int? LithographyId { get; set; }
 
-        public Lithography Lithography { get; set; }
+        public virtual Lithography Lithography { get; set; }
 
         public bool? SixtyFourBitSupport { get; set; }
 
@@ -50,17 +50,17 @@
 
         public int? MemoryTypeId { get; set; }
 
-        public MemoryType MemoryType { get; set; }
+        public virtual MemoryType MemoryType { get; set; }
 
         public int? MemorySpeedId { get; set; }
 
-        public MemorySpeed MemorySpeed { get; set; }
+        public virtual MemorySpeed MemorySpeed { get; set; }
 
         public bool? VirtualizationSupport { get; set; }
 
         public int? IntegratedGraphicId { get; set; }
 
-        public IntegratedGraphic IntegratedGraphic { get; set; }
+        public virtual IntegratedGraphic IntegratedGraphic { get; set; }
 
         public float? PCIERevision { get; set; }
 

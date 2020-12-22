@@ -9,7 +9,7 @@
             this.UserRatings = new HashSet<MemoryUserRating>();
         }
 
-        public ICollection<MemoryUserRating> UserRatings { get; set; }
+        public virtual ICollection<MemoryUserRating> UserRatings { get; set; }
 
         public byte? NumberOfModules { get; set; }
 
@@ -17,11 +17,11 @@
 
         public int? MemoryTypeId { get; set; }
 
-        public MemoryType MemoryType { get; set; }
+        public virtual MemoryType MemoryType { get; set; }
 
         public int? MemorySpeedId { get; set; }
 
-        public MemorySpeed MemorySpeed { get; set; }
+        public virtual MemorySpeed MemorySpeed { get; set; }
 
         public float? ColumnAddressStrobeLatency { get; set; }
 

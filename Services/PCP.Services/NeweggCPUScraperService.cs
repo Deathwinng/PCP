@@ -52,12 +52,13 @@
             this.seriesRepo = seriesRepo;
         }
 
-        public async Task ScrapeCPUsFromProductPageAsync(string productUrl)
+        public async Task<string> ScrapeFromProductPageAsync(string productUrl)
         {
             if (productUrl.Contains("Combo"))
             {
-                this.logger.LogWarning("Invalid Product.");
-                return;
+                var message = "Invalid Product.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             var document = await this.Context.OpenAsync(productUrl);
@@ -81,8 +82,9 @@
                     case "Name":
                         if (this.cpuRepo.AllAsNoTracking().Any(x => x.Name == rowValue))
                         {
-                            this.logger.LogWarning("Already exists.");
-                            return;
+                            var message = "Already exists.";
+                            this.logger.LogWarning(message);
+                            return message;
                         }
 
                         cpu.Name = rowValue;
@@ -100,6 +102,13 @@
                         cpu.Brand = brand;
                         break;
                     case "Model":
+                        if (this.cpuRepo.AllAsNoTracking().Any(x => x.Model == rowValue))
+                        {
+                            var message = "Already exists.";
+                            this.logger.LogWarning(message);
+                            return message;
+                        }
+
                         cpu.Model = rowValue;
                         break;
                     case "Processors Type":
@@ -308,37 +317,41 @@
                 cpu.IntegratedGraphic = integratedGrapic;
             }
 
-            if (cpu.Name == null)
+            if (string.IsNullOrEmpty(cpu.Name) || string.IsNullOrEmpty(cpu.Model))
             {
-                this.logger.LogWarning("Invalid Name.");
-                return;
+                var message = "Invalid Name or Model.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             await this.cpuRepo.AddAsync(cpu);
             await this.cpuRepo.SaveChangesAsync();
+
+            var successMessage = $"Successfully added {cpu.Model}.";
+            this.logger.LogInformation(successMessage);
+            return successMessage;
         }
 
         private int GetCacheAsInt(string cacheAsString)
         {
-            int result;
+            float? result;
             if (cacheAsString.ToLower().Contains('x'))
             {
                 var splitValues = cacheAsString.ToLower().Split('x');
-                var value1 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[0]).Value);
-                var value2 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[1]).Value);
+                var value1 = this.MatchAndParseFloat(splitValues[0]);
+                var value2 = this.MatchAndParseFloat(splitValues[1]);
                 result = value1 * value2;
             }
             else if (cacheAsString.ToLower().Contains('+'))
             {
                 var splitValues = cacheAsString.ToLower().Split('+');
-                var value1 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[0]).Value);
-                var value2 = int.Parse(this.MatchOneOrMoreDigits.Match(splitValues[1]).Value);
+                var value1 = this.MatchAndParseFloat(splitValues[0]);
+                var value2 = this.MatchAndParseFloat(splitValues[1]);
                 result = value1 + value2;
             }
             else
             {
-                var value = this.MatchOneOrMoreDigitsFloat.Match(cacheAsString).Value;
-                result = int.Parse(value, CultureInfo.InvariantCulture);
+                result = this.MatchAndParseFloat(cacheAsString);
             }
 
             var isInMegabites = cacheAsString.ToLower().Contains("mb");
@@ -347,7 +360,7 @@
                 result *= 1024;
             }
 
-            return result;
+            return (int)result;
         }
     }
 }

@@ -6,6 +6,6 @@
     {
         public string SSDId { get; set; }
 
-        public SSD SSD { get; set; }
+        public virtual SSD SSD { get; set; }
     }
 }

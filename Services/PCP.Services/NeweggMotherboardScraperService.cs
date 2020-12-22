@@ -56,12 +56,13 @@
             this.lanChipsetRepo = lanChipsetRepo;
         }
 
-        public async Task ScrapeMotherboardFromProductPageAsync(string productUrl)
+        public async Task<string> ScrapeFromProductPageAsync(string productUrl)
         {
             if (productUrl.Contains("Combo"))
             {
-                this.logger.LogWarning("Invalid Product.");
-                return;
+                var message = "Invalid Product.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             var document = await this.Context.OpenAsync(productUrl);
@@ -148,8 +149,9 @@
                     case "Model":
                         if (this.motherboardRepo.AllAsNoTracking().Any(x => x.Model == rowValue))
                         {
-                            this.logger.LogWarning("Already exists.");
-                            return;
+                            var message = "Already exists.";
+                            this.logger.LogWarning(message);
+                            return message;
                         }
 
                         motherboard.Model = rowValue;
@@ -333,12 +335,16 @@
 
             if (motherboard.Model == null)
             {
-                this.logger.LogWarning("Invalid Model.");
-                return;
+                var message = "Invalid Model.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             await this.motherboardRepo.AddAsync(motherboard);
             await this.motherboardRepo.SaveChangesAsync();
+            var successMessage = $"Successfully added {motherboard.Model}.";
+            this.logger.LogInformation(successMessage);
+            return successMessage;
         }
 
         private byte GetNumberOfSlots(string regexExpression, string from)

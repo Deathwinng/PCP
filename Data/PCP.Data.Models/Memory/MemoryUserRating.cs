@@ -6,6 +6,6 @@
     {
         public string MemoryId { get; set; }
 
-        public Memory Memory { get; set; }
+        public virtual Memory Memory { get; set; }
     }
 }

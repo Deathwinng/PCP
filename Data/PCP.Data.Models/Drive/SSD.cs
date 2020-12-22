@@ -9,11 +9,11 @@ namespace PCP.Data.Models.Drive
             this.UserRatings = new HashSet<SSDUserRating>();
         }
 
-        public ICollection<SSDUserRating> UserRatings { get; set; }
+        public virtual ICollection<SSDUserRating> UserRatings { get; set; }
 
         public int? MemoryComponentId { get; set; }
 
-        public MemoryComponent MemoryComponent { get; set; }
+        public virtual MemoryComponent MemoryComponent { get; set; }
 
         public short? MaxSequentialReadMBps { get; set; }
 

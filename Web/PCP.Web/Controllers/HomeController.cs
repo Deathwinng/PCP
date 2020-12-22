@@ -3,17 +3,36 @@
     using System.Diagnostics;
 
     using Microsoft.AspNetCore.Mvc;
+    using PCP.Services.Data;
     using PCP.Web.ViewModels;
+    using PCP.Web.ViewModels.Home;
 
     public class HomeController : BaseController
     {
-        public HomeController()
+        private readonly ICPUService cpuService;
+        private readonly IMotherboardService motherboardService;
+        private readonly IGPUService gpuService;
+
+        public HomeController(
+            ICPUService cpuService,
+            IMotherboardService motherboardService,
+            IGPUService gpuService)
         {
+            this.cpuService = cpuService;
+            this.motherboardService = motherboardService;
+            this.gpuService = gpuService;
         }
 
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new IndexViewModel
+            {
+                RandomProducts = new RandomProductsViewModel(),
+            };
+            viewModel.RandomProducts.CPUs = this.cpuService.GetRandom<BasicInfoViewModel>(4);
+            viewModel.RandomProducts.Motherboards = this.motherboardService.GetRandom<BasicInfoViewModel>(4);
+            viewModel.RandomProducts.GPUs = this.gpuService.GetRandom<BasicInfoViewModel>(4);
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

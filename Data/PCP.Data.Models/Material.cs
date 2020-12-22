@@ -7,7 +7,6 @@
     public class Material : BaseDeletableModel<int>
     {
         [Required]
-        [MaxLength(100)]
         public string Name { get; set; }
     }
 }

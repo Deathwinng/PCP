@@ -39,12 +39,13 @@
             this.formFactorRepo = formFactorRepo;
         }
 
-        public async Task ScrapeHDDFromProductPageAsync(string productUrl)
+        public async Task<string> ScrapeFromProductPageAsync(string productUrl)
         {
             if (productUrl.Contains("Combo"))
             {
-                this.logger.LogWarning("Invalid Product.");
-                return;
+                var message = "Invalid Product.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             var document = await this.Context.OpenAsync(productUrl);
@@ -69,8 +70,9 @@
                     case "Model":
                         if (this.hddRepo.AllAsNoTracking().Any(x => x.Model == rowValue))
                         {
-                            this.logger.LogWarning("Already exists.");
-                            return;
+                            var message = "Already exists.";
+                            this.logger.LogWarning(message);
+                            return message;
                         }
 
                         hdd.Model = rowValue;
@@ -176,13 +178,16 @@
 
             if (hdd.Model == null)
             {
-                this.logger.LogWarning("Invalid Model.");
-                return;
+                var message = "Invalid Model.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             await this.hddRepo.AddAsync(hdd);
             await this.hddRepo.SaveChangesAsync();
-            this.logger.LogInformation($"Successfully added {hdd.Model}.");
+            var successMessage = $"Successfully added {hdd.Model}.";
+            this.logger.LogInformation(successMessage);
+            return successMessage;
         }
     }
 }

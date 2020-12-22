@@ -6,7 +6,7 @@
     {
         public int? GPUCoreId { get; set; }
 
-        public GPUCore GPUCore { get; set; }
+        public virtual GPUCore GPUCore { get; set; }
 
         public short? CoreClock { get; set; }
 

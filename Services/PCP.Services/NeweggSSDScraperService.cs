@@ -42,12 +42,13 @@
             this.memoryComponentRepo = memoryComponentRepo;
         }
 
-        public async Task ScrapeSSDFromProductPageAsync(string productUrl)
+        public async Task<string> ScrapeFromProductPageAsync(string productUrl)
         {
             if (productUrl.Contains("Combo"))
             {
-                this.logger.LogWarning("Invalid Product.");
-                return;
+                var message = "Invalid Product.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             var document = await this.Context.OpenAsync(productUrl);
@@ -72,8 +73,9 @@
                     case "Model":
                         if (this.ssdRepo.AllAsNoTracking().Any(x => x.Model == rowValue))
                         {
-                            this.logger.LogWarning("Already exists.");
-                            return;
+                            var message = "Already exists.";
+                            this.logger.LogWarning(message);
+                            return message;
                         }
 
                         ssd.Model = rowValue;
@@ -219,13 +221,16 @@
 
             if (ssd.Model == null)
             {
-                this.logger.LogWarning("Invalid Model.");
-                return;
+                var message = "Invalid Model.";
+                this.logger.LogWarning(message);
+                return message;
             }
 
             await this.ssdRepo.AddAsync(ssd);
             await this.ssdRepo.SaveChangesAsync();
-            this.logger.LogInformation($"Successfully added {ssd.Model}.");
+            var successMessage = $"Successfully added {ssd.Model}.";
+            this.logger.LogInformation(successMessage);
+            return successMessage;
         }
     }
 }

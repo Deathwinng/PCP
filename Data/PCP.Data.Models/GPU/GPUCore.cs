@@ -8,11 +8,11 @@
 
         public int BrandId { get; set; }
 
-        public Brand Brand { get; set; }
+        public virtual Brand Brand { get; set; }
 
         public int? SeriesId { get; set; }
 
-        public Series Series { get; set; }
+        public virtual Series Series { get; set; }
 
         public short? Cores { get; set; }
     }

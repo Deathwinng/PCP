@@ -6,6 +6,6 @@
     {
         public string GPUId { get; set; }
 
-        public GPU GPU { get; set; }
+        public virtual GPU GPU { get; set; }
     }
 }

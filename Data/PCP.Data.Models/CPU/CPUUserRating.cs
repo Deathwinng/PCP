@@ -6,6 +6,6 @@
     {
         public string CPUId { get; set; }
 
-        public CPU CPU { get; set; }
+        public virtual CPU CPU { get; set; }
     }
 }

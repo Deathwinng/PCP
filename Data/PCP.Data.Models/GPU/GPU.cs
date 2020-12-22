@@ -10,19 +10,19 @@
             this.UserRatings = new HashSet<GPUUserRating>();
         }
 
-        public ICollection<GPUUserRating> UserRatings { get; set; }
+        public virtual ICollection<GPUUserRating> UserRatings { get; set; }
 
         public int? GPUInterfaceId { get; set; }
 
-        public Interface GPUInterface { get; set; }
+        public virtual Interface GPUInterface { get; set; }
 
         public int? GPUChipsetId { get; set; }
 
-        public GPUChipset GPUChipset { get; set; }
+        public virtual GPUChipset GPUChipset { get; set; }
 
         public int? MemoryTypeId { get; set; }
 
-        public MemoryType MemoryType { get; set; }
+        public virtual MemoryType MemoryType { get; set; }
 
         public int? MemorySize { get; set; }
 
@@ -34,7 +34,7 @@
 
         public float? OpenGLVersion { get; set; }
 
-        public ICollection<GPUPort> GPUPorts { get; set; }
+        public virtual ICollection<GPUPort> GPUPorts { get; set; }
 
         public short? ThermalDesignPower { get; set; }
 

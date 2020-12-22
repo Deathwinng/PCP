@@ -10,7 +10,7 @@ using PCP.Data;
 namespace PCP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201220220343_InitialCreate")]
+    [Migration("20201222161525_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -494,8 +494,8 @@ namespace PCP.Data.Migrations
                     b.Property<string>("HeatsinkDimension")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("HeatsinkMaterial")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("HeatsinkMaterialId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -544,6 +544,8 @@ namespace PCP.Data.Migrations
                     b.HasIndex("CoolerTypeId");
 
                     b.HasIndex("DownloadedRatingId");
+
+                    b.HasIndex("HeatsinkMaterialId");
 
                     b.HasIndex("IsDeleted");
 
@@ -785,14 +787,14 @@ namespace PCP.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<byte?>("MaxCPUCoolerHeight")
-                        .HasColumnType("tinyint");
+                    b.Property<short?>("MaxCPUCoolerHeight")
+                        .HasColumnType("smallint");
 
                     b.Property<short?>("MaxGPULength")
                         .HasColumnType("smallint");
 
-                    b.Property<byte?>("MaxPSULenght")
-                        .HasColumnType("tinyint");
+                    b.Property<short?>("MaxPSULenght")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -1727,8 +1729,8 @@ namespace PCP.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
@@ -1789,8 +1791,7 @@ namespace PCP.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -2592,6 +2593,10 @@ namespace PCP.Data.Migrations
                         .WithMany()
                         .HasForeignKey("DownloadedRatingId");
 
+                    b.HasOne("PCP.Data.Models.Material", "HeatsinkMaterial")
+                        .WithMany()
+                        .HasForeignKey("HeatsinkMaterialId");
+
                     b.HasOne("PCP.Data.Models.Series", "Series")
                         .WithMany()
                         .HasForeignKey("SeriesId");
@@ -2607,6 +2612,8 @@ namespace PCP.Data.Migrations
                     b.Navigation("CoolerType");
 
                     b.Navigation("DownloadedRating");
+
+                    b.Navigation("HeatsinkMaterial");
 
                     b.Navigation("Series");
                 });

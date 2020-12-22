@@ -1,0 +1,43 @@
+﻿@model PCP.Web.ViewModels.CPUs.CPUViewModel
+@using System.Globalization
+
+<div class="row p-3">
+    <img src="@Model.ImageUrl" alt="Product Image" class="col-5" />
+    <div class="col-7">
+        <h1>@Model.BrandName @Model.Name</h1>
+        <h2>$@Model.Price.ToString("F2", CultureInfo.InvariantCulture)</h2>
+    </div>
+</div>
+<div class="border p-3 rounded">
+    <h3 class="mb-3">Specs</h3>
+    <table class="table table-bordered">
+        <thead class="font-weight-bold">Model</thead>
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Brand", Value = Model.BrandName }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Name", Value = Model.Name }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Series", Value = Model.SeriesName }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Model", Value = Model.Model }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Socket Type", Value = Model.SocketName }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Core Name", Value = Model.CoreNameName }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "Number of Cores", Value = Model.Cores }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "Number of Threads", Value = Model.Threads }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialFloatViewModel{ Title = "Base Frequency", Value = Model.Frequency / 1000.0F, Addon = "GHz" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialFloatViewModel{ Title = "Turbo Frequency", Value = Model.TurboFrequency / 1000.0F, Addon = "GHz" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialFloatViewModel{ Title = "L1 Cahche", Value = Model.L1Cache, Addon = "KB" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialFloatViewModel{ Title = "L2 Cahche", Value = Model.L2Cache, Addon = "KB" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialFloatViewModel{ Title = "L3 Cahche", Value = Model.L3Cache, Addon = "KB" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Manufacturing Tech", Value = Model.LithographyName }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialBoolViewModel{ Title = "64-Bit Support", BoolValue = Model.SixtyFourBitSupport }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Memory Type", Value = Model.MemoryTypeType }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "Memory Speed", Value = Model.MemorySpeedSpeed }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "Memory Channels", Value = Model.MemoryChannel }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialBoolViewModel{ Title = "Virtualization Support", BoolValue = Model.VirtualizationSupport }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Integrated Graphics", Value = Model.IntegratedGraphicName }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "Graphics Base Frequency", Value = Model.IntegratedGraphicBaseFrequency, Addon = "MHz" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "Graphics Max Frequency", Value = Model.IntegratedGraphicMaxFrequency, Addon = "MHz" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialFloatViewModel{ Title = "PCIe Revision", Value = Model.PCIERevision }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "PCIe Lanes Available", Value = Model.PCIELanes }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialIntViewModel{ Title = "Thermal Design Power", Value = Model.ThermalDesignPower, Addon = "W" }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialBoolViewModel{ Title = "Cooling Device Included", BoolValue = Model.HasCoolingDevice }' />
+        <partial name="_SpecsTableRowPartial" model='new SpecsTableRowPartialStringViewModel{ Title = "Date First Available", Value = Model.FirstAvailable.ToLongDateString() }' />
+    </table>
+</div>

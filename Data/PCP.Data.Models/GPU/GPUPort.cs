@@ -6,11 +6,11 @@
     {
         public int GPUId { get; set; }
 
-        public GPU GPU { get; set; }
+        public virtual GPU GPU { get; set; }
 
         public int PortId { get; set; }
 
-        public Port Port { get; set; }
+        public virtual Port Port { get; set; }
 
         public byte Quantity { get; set; }
     }

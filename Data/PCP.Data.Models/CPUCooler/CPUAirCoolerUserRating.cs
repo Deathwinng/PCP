@@ -6,6 +6,6 @@
     {
         public string CPUCoolerId { get; set; }
 
-        public CPUAirCooler CPUAirCooler { get; set; }
+        public virtual CPUAirCooler CPUAirCooler { get; set; }
     }
 }

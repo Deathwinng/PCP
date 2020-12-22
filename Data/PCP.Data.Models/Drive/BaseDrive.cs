@@ -4,7 +4,7 @@
     {
         public int? InterfaceId { get; set; }
 
-        public Interface Interface { get; set; }
+        public virtual Interface Interface { get; set; }
 
         public short? CapacityGb { get; set; }
 
@@ -12,9 +12,9 @@
 
         public string Features { get; set; }
 
-        public DiskForUsage Usage { get; set; }
+        public virtual DiskForUsage Usage { get; set; }
 
-        public FormFactor FormFactor { get; set; }
+        public virtual FormFactor FormFactor { get; set; }
 
         public float? Height { get; set; }
 

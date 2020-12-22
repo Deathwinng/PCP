@@ -6,6 +6,6 @@
     {
         public string CaseId { get; set; }
 
-        public Case Case { get; set; }
+        public virtual Case Case { get; set; }
     }
 }

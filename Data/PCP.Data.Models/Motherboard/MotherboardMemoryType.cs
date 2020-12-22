@@ -6,14 +6,14 @@
     {
         public string MotherboardId { get; set; }
 
-        public Motherboard Motherboard { get; set; }
+        public virtual Motherboard Motherboard { get; set; }
 
         public int MemoryTypeId { get; set; }
 
-        public MemoryType MemoryType { get; set; }
+        public virtual MemoryType MemoryType { get; set; }
 
         public int? MemorySpeedId { get; set; }
 
-        public MemorySpeed MemorySpeed { get; set; }
+        public virtual MemorySpeed MemorySpeed { get; set; }
     }
 }

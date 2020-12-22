@@ -12,19 +12,19 @@
             this.UserRatings = new HashSet<CPUAirCoolerUserRating>();
         }
 
-        public ICollection<CPUAirCoolerUserRating> UserRatings { get; set; }
+        public virtual ICollection<CPUAirCoolerUserRating> UserRatings { get; set; }
 
         public int? CoolerTypeId { get; set; }
 
-        public CoolerType CoolerType { get; set; }
+        public virtual CoolerType CoolerType { get; set; }
 
         public short? FanSize { get; set; }
 
-        public ICollection<CPUAirCoolerSocket> Sockets { get; set; }
+        public virtual ICollection<CPUAirCoolerSocket> Sockets { get; set; }
 
         public int? CoolerBearingTypeId { get; set; }
 
-        public CoolerBearingType CoolerBearingType { get; set; }
+        public virtual CoolerBearingType CoolerBearingType { get; set; }
 
         public short? RPM { get; set; }
 
@@ -36,13 +36,15 @@
 
         public int? ColorId { get; set; }
 
-        public Color Color { get; set; }
+        public virtual Color Color { get; set; }
 
         public int? CoolerLEDId { get; set; }
 
-        public CoolerLEDType CoolerLED { get; set; }
+        public virtual CoolerLEDType CoolerLED { get; set; }
 
-        public string HeatsinkMaterial { get; set; }
+        public int? HeatsinkMaterialId { get; set; }
+
+        public virtual Material HeatsinkMaterial { get; set; }
 
         public byte? MaxHeight { get; set; }
 
